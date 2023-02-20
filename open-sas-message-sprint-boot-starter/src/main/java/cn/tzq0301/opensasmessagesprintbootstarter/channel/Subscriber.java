@@ -1,9 +1,9 @@
 package cn.tzq0301.opensasmessagesprintbootstarter.channel;
 
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Group;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.MessageContent;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Priority;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Version;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Group;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.MessageContent;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Priority;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Version;
 import com.google.errorprone.annotations.CheckReturnValue;
 import org.checkerframework.checker.nullness.qual.NonNull;
 

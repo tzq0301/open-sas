@@ -3,10 +3,10 @@ package cn.tzq0301.opensasmessagesprintbootstarter.channel.impl;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Channel;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Subscriber;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.SubscriberCallback;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Group;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.MessageContent;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Priority;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Version;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Group;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.MessageContent;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Priority;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Version;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;

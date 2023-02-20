@@ -1,0 +1,3 @@
+open-sas:
+  server: true
+  port: 10000

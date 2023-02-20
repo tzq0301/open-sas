@@ -1,4 +1,4 @@
-package cn.tzq0301.opensasmessagesprintbootstarter.core;
+package cn.tzq0301.opensasmessagesprintbootstarter.common;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 

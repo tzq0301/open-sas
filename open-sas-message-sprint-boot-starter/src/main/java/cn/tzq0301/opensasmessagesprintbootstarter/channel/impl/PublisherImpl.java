@@ -2,7 +2,7 @@ package cn.tzq0301.opensasmessagesprintbootstarter.channel.impl;
 
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Channel;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Publisher;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.*;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;

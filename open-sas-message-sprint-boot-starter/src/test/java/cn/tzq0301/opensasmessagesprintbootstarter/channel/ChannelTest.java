@@ -4,10 +4,10 @@ import cn.tzq0301.opensasmessagesprintbootstarter.channel.impl.ChannelImpl;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.impl.MiddlewareImpl;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.impl.PublisherImpl;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.impl.SubscriberImpl;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Group;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.MessageContent;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Priority;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Version;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Group;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.MessageContent;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Priority;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Version;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package cn.tzq0301.opensasmessagesprintbootstarter.channel;
 
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Message;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Message;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public interface Channel {

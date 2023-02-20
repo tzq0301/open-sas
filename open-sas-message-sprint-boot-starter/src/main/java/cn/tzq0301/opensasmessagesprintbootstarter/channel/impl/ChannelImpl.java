@@ -2,20 +2,23 @@ package cn.tzq0301.opensasmessagesprintbootstarter.channel.impl;
 
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Channel;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Subscriber;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Group;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Message;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Priority;
-import cn.tzq0301.opensasmessagesprintbootstarter.core.Version;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Group;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Message;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Priority;
+import cn.tzq0301.opensasmessagesprintbootstarter.common.Version;
 import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class ChannelImpl implements Channel {
+@Component
+@ConditionalOnProperty(prefix = "open-sas", name = "server", havingValue = "true")
+public final class ChannelImpl implements Channel {
     private final Map<Group, Map<Version, NavigableMap<Priority, Subscriber>>> groupMap;
 
     public ChannelImpl() {
