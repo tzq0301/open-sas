@@ -44,13 +44,14 @@ public record Register(@NonNull Channel channel) implements Endpoint {
             return Response.error(ILLEGAL_ARGUMENT);
         }
 
-        channel.registerSubscriber(new SubscriberImpl(entity.group(), entity.version(), entity.priority(), content -> {
-            try {
-                session.sendMessage(new TextMessage(mapper.writeValueAsString(content)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }));
+        // FIXME
+//        channel.registerSubscriber(new SubscriberImpl(entity.group(), entity.version(), entity.priority(), content -> {
+//            try {
+//                session.sendMessage(new TextMessage(mapper.writeValueAsString(content)));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }));
 
         return Response.success(new Payload<>(method, null));
     }

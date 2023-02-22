@@ -1,8 +1,8 @@
 package cn.tzq0301.opensasmessagesprintbootstarter.channel.impl;
 
+import cn.tzq0301.opensasmessagesprintbootstarter.callback.SubscriberCallback;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Channel;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Subscriber;
-import cn.tzq0301.opensasmessagesprintbootstarter.channel.SubscriberCallback;
 import cn.tzq0301.opensasmessagesprintbootstarter.common.Group;
 import cn.tzq0301.opensasmessagesprintbootstarter.common.MessageContent;
 import cn.tzq0301.opensasmessagesprintbootstarter.common.Priority;
@@ -21,36 +21,20 @@ public record SubscriberImpl(@NonNull Group group, @NonNull Version version, @No
     }
 
     @Override
-    public void onMessage(@NonNull final Channel channel, @NonNull final MessageContent content) {
-        checkNotNull(channel);
+    public void onMessage(@NonNull final MessageContent content) {
         checkNotNull(content);
-        callback.accept(content);
+        callback.onMessage(content);
     }
 
     @Override
-    public void subscribe(@NonNull final Channel channel) {
+    public void subscribe(@NonNull Channel channel) {
         checkNotNull(channel);
-        channel.registerSubscriber(this);
+        channel.registerSubscriber(group, version, priority, callback);
     }
 
     @Override
-    public void unsubscribe(@NonNull final Channel channel) {
+    public void unsubscribe(@NonNull Channel channel) {
         checkNotNull(channel);
-        channel.unregisterSubscriber(this);
-    }
-
-    @Override
-    public @NonNull Group group() {
-        return group;
-    }
-
-    @Override
-    public @NonNull Version version() {
-        return version;
-    }
-
-    @Override
-    public @NonNull Priority priority() {
-        return priority;
+        channel.unregisterSubscriber(group, version, priority);
     }
 }

@@ -1,8 +1,6 @@
 package cn.tzq0301.opensasmessagesprintbootstarter.channel;
 
-import cn.tzq0301.opensasmessagesprintbootstarter.common.MessageContent;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import cn.tzq0301.opensasmessagesprintbootstarter.callback.PublisherCallback;
 
-public interface Publisher {
-    void publish(@NonNull final Channel channel, @NonNull final MessageContent content);
+public interface Publisher extends PublisherCallback {
 }

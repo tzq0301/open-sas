@@ -45,7 +45,8 @@ public record Unregister(@NonNull Channel channel) implements Endpoint {
             return Response.error(ILLEGAL_ARGUMENT);
         }
 
-        channel.unregisterSubscriber(new SubscriberImpl(entity.group(), entity.version(), entity.priority(), content -> {}));
+        // FIXME
+//        channel.unregisterSubscriber(new SubscriberImpl(entity.group(), entity.version(), entity.priority(), content -> {}));
 
         return Response.success(new Payload<>(method, null));
     }
