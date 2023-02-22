@@ -2,7 +2,7 @@ package cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.regi
 
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.Endpoint;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.EndpointRegistry;
-import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.WebSocketEndpointUtils;
+import cn.tzq0301.opensasmessagesprintbootstarter.net.util.WebSocketEndpointUtils;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.payload.Payload;
 import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.NonNull;

@@ -1,6 +1,6 @@
 package cn.tzq0301.opensasmessagesprintbootstarter.net.common.payload;
 
-import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.WebSocketEndpointReferenceUtils;
+import cn.tzq0301.opensasmessagesprintbootstarter.net.util.WebSocketEndpointReferenceUtils;
 import com.google.errorprone.annotations.CheckReturnValue;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
