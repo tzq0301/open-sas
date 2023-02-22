@@ -10,7 +10,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class MiddlewareImpl implements Middleware {
+public final class MiddlewareImpl implements Middleware {
     private final Publisher publisher;
 
     private final Subscriber subscriber;
@@ -40,13 +40,13 @@ public class MiddlewareImpl implements Middleware {
     }
 
     @Override
-    public void subscribe(@NonNull Channel channel) {
+    public void subscribe(@NonNull final Channel channel) {
         checkNotNull(channel);
         subscriber.subscribe(channel);
     }
 
     @Override
-    public void unsubscribe(@NonNull Channel channel) {
+    public void unsubscribe(@NonNull final Channel channel) {
         checkNotNull(channel);
         subscriber.unsubscribe(channel);
     }

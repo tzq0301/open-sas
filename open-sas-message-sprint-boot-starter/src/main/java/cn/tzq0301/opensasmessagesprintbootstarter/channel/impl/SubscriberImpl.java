@@ -9,15 +9,25 @@ import cn.tzq0301.opensasmessagesprintbootstarter.common.Priority;
 import cn.tzq0301.opensasmessagesprintbootstarter.common.Version;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Objects;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public record SubscriberImpl(@NonNull Group group, @NonNull Version version, @NonNull Priority priority,
-                             @NonNull SubscriberCallback callback) implements Subscriber {
-    public SubscriberImpl {
+public final class SubscriberImpl implements Subscriber {
+    private final Group group;
+    private final Version version;
+    private final Priority priority;
+    private final SubscriberCallback callback;
+
+    public SubscriberImpl(@NonNull Group group, @NonNull Version version, @NonNull Priority priority, @NonNull SubscriberCallback callback) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
         checkNotNull(callback);
+        this.group = group;
+        this.version = version;
+        this.priority = priority;
+        this.callback = callback;
     }
 
     @Override
@@ -27,13 +37,13 @@ public record SubscriberImpl(@NonNull Group group, @NonNull Version version, @No
     }
 
     @Override
-    public void subscribe(@NonNull Channel channel) {
+    public void subscribe(@NonNull final Channel channel) {
         checkNotNull(channel);
         channel.registerSubscriber(group, version, priority, callback);
     }
 
     @Override
-    public void unsubscribe(@NonNull Channel channel) {
+    public void unsubscribe(@NonNull final Channel channel) {
         checkNotNull(channel);
         channel.unregisterSubscriber(group, version, priority);
     }
