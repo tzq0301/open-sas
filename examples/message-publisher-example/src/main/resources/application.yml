@@ -8,4 +8,4 @@ open-sas:
     major: 1
     minor: 0
     patch: 0
-  priority: 0
+  priority: 100

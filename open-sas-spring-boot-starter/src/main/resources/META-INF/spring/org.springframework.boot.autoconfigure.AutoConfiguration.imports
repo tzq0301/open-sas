@@ -11,3 +11,5 @@ cn.tzq0301.opensasmessagesprintbootstarter.net.config.SubscriberConfig
 
 cn.tzq0301.opensasmessagesprintbootstarter.net.handler.client.MessageSubscriberHandler
 cn.tzq0301.opensasmessagesprintbootstarter.net.handler.server.MessageServerHandler
+
+cn.tzq0301.opensasmessagesprintbootstarter.sdk.MessagePublisher

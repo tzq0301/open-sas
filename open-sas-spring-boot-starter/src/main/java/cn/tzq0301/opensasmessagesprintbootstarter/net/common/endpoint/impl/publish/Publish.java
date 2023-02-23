@@ -28,7 +28,7 @@ public final class Publish implements Endpoint {
         checkNotNull(session);
 
         PublishRequest request = mapper.convertValue(payload.data(), PublishRequest.class);
-        System.out.println(request);
+        System.out.println(request); // FIXME
         channel.publish(request.message());
     }
 }
