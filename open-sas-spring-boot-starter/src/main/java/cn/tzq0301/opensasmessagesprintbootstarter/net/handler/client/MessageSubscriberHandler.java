@@ -10,7 +10,6 @@ import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.regis
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.unregister.UnregisterClient;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.unregister.UnregisterRequest;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.payload.Payload;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -28,8 +27,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class MessageSubscriberHandler implements WebSocketHandler {
     private final EndpointRegistry endpointRegistry;
 
-    private static final ObjectMapper mapper = new ObjectMapper();
-
     private WebSocketSession session; // init after connection established
 
     private final Group group;
@@ -38,7 +35,9 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
 
     private final Priority priority;
 
-    public MessageSubscriberHandler(Group group, Version version, Priority priority) {
+    public MessageSubscriberHandler(@NonNull final Group group,
+                                    @NonNull final Version version,
+                                    @NonNull final Priority priority) {
         this.group = group;
         this.version = version;
         this.priority = priority;
