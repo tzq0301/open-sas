@@ -1,6 +1,6 @@
 package cn.tzq0301.messagecenterexample;
 
-import cn.tzq0301.opensasmessagesprintbootstarter.net.handler.server.MessageServerHandler;
+import cn.tzq0301.opensasspringbootstarter.net.handler.server.MessageServerHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

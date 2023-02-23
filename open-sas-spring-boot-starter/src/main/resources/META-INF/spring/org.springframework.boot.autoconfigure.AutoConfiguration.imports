@@ -1,15 +1,15 @@
-cn.tzq0301.opensasmessagesprintbootstarter.channel.impl.ChannelImpl
+cn.tzq0301.opensasspringbootstarter.channel.impl.ChannelImpl
 
-cn.tzq0301.opensasmessagesprintbootstarter.common.Group
-cn.tzq0301.opensasmessagesprintbootstarter.common.Priority
-cn.tzq0301.opensasmessagesprintbootstarter.common.Version
+cn.tzq0301.opensasspringbootstarter.common.Group
+cn.tzq0301.opensasspringbootstarter.common.Priority
+cn.tzq0301.opensasspringbootstarter.common.Version
 
-cn.tzq0301.opensasmessagesprintbootstarter.net.config.PortConfig
-cn.tzq0301.opensasmessagesprintbootstarter.net.config.PublisherConfig
-cn.tzq0301.opensasmessagesprintbootstarter.net.config.ServerConfig
-cn.tzq0301.opensasmessagesprintbootstarter.net.config.SubscriberConfig
+cn.tzq0301.opensasspringbootstarter.net.config.PortConfig
+cn.tzq0301.opensasspringbootstarter.net.config.PublisherConfig
+cn.tzq0301.opensasspringbootstarter.net.config.ServerConfig
+cn.tzq0301.opensasspringbootstarter.net.config.SubscriberConfig
 
-cn.tzq0301.opensasmessagesprintbootstarter.net.handler.client.MessageSubscriberHandler
-cn.tzq0301.opensasmessagesprintbootstarter.net.handler.server.MessageServerHandler
+cn.tzq0301.opensasspringbootstarter.net.handler.client.MessageSubscriberHandler
+cn.tzq0301.opensasspringbootstarter.net.handler.server.MessageServerHandler
 
-cn.tzq0301.opensasmessagesprintbootstarter.sdk.MessagePublisher
+cn.tzq0301.opensasspringbootstarter.sdk.publisher.MessagePublisher

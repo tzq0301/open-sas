@@ -1,7 +1,7 @@
 package cn.tzq0301.messagepublisherexample.controller;
 
-import cn.tzq0301.opensasmessagesprintbootstarter.common.MessageContent;
-import cn.tzq0301.opensasmessagesprintbootstarter.sdk.MessagePublisher;
+import cn.tzq0301.opensasspringbootstarter.common.MessageContent;
+import cn.tzq0301.opensasspringbootstarter.sdk.publisher.MessagePublisher;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
