@@ -24,7 +24,7 @@
 
         <dependency>
             <groupId>cn.tzq0301</groupId>
-            <artifactId>open-sas-message-sprint-boot-starter</artifactId>
+            <artifactId>open-sas-spring-boot-starter</artifactId>
             <version>1.0.0</version>
         </dependency>
 

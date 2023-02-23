@@ -10,11 +10,10 @@
 	</parent>
 
 	<groupId>cn.tzq0301</groupId>
-	<artifactId>open-sas-message-sprint-boot-starter</artifactId>
+	<artifactId>open-sas-spring-boot-starter</artifactId>
 	<version>1.0.0</version>
 
-	<name>open-sas-message-sprint-boot-starter</name>
-	<description>open-sas-message-sprint-boot-starter</description>
+	<name>open-sas-spring-boot-starter</name>
 
 	<packaging>jar</packaging>
 
