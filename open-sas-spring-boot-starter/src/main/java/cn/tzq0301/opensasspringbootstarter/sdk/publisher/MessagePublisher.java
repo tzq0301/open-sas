@@ -13,7 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @ConditionalOnBean(MessagePublisherHandler.class)
 @Import({MessagePublisherHandler.class})
 public final class MessagePublisher {
-    private final MessagePublisherHandler handler;
+    private final MessagePublisherHandler handler; // TODO change to interface Publisher?
 
     public MessagePublisher(@NonNull final MessagePublisherHandler handler) {
         checkNotNull(handler);

@@ -1,5 +1,6 @@
 package cn.tzq0301.opensasspringbootstarter.net.handler.client;
 
+import cn.tzq0301.opensasspringbootstarter.channel.Publisher;
 import cn.tzq0301.opensasspringbootstarter.common.*;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.EndpointRegistry;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishClient;
@@ -18,26 +19,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @Component
 @ConditionalOnProperty(prefix = "open-sas.publisher", name = "enable", havingValue = "true")
-public final class MessagePublisherHandler implements WebSocketHandler {
+public final class MessagePublisherHandler implements WebSocketHandler, Publisher {
     private final EndpointRegistry endpointRegistry;
 
     private WebSocketSession session; // init after connection established
 
-    private final Group group;
-
-    private final Version version;
-
-    private final Priority priority;
+    private final Publisher publisher;
 
     public MessagePublisherHandler(@NonNull final Group group,
                                    @NonNull final Version version,
                                    @NonNull final Priority priority) {
-        this.group = group;
-        this.version = version;
-        this.priority = priority;
         this.endpointRegistry = new EndpointRegistryImpl() {{
             register(new PublishClient());
         }};
+        this.publisher = content -> {
+            checkNotNull(content);
+            var message = new Message(group, version, priority, content);
+            endpointRegistry.call(Payload.fromData(new PublishRequest(message)), session);
+        };
     }
 
     @Override
@@ -70,9 +69,9 @@ public final class MessagePublisherHandler implements WebSocketHandler {
         return false;
     }
 
+    @Override
     public void publish(@NonNull final MessageContent content) {
         checkNotNull(content);
-        var message = new Message(group, version, priority, content);
-        endpointRegistry.call(Payload.fromData(new PublishRequest(message)), session);
+        publisher.publish(content);
     }
 }
