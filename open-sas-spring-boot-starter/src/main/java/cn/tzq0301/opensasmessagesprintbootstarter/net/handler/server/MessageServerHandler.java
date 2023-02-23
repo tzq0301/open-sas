@@ -3,6 +3,7 @@ package cn.tzq0301.opensasmessagesprintbootstarter.net.handler.server;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.Channel;
 import cn.tzq0301.opensasmessagesprintbootstarter.channel.impl.ChannelImpl;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.EndpointRegistry;
+import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.publish.Publish;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.register.Register;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.registry.EndpointRegistryImpl;
 import cn.tzq0301.opensasmessagesprintbootstarter.net.common.endpoint.impl.unregister.Unregister;
@@ -29,6 +30,7 @@ public final class MessageServerHandler implements WebSocketHandler {
         this.endpointRegistry = new EndpointRegistryImpl() {{
             register(new Register(channel));
             register(new Unregister(channel));
+            register(new Publish(channel));
         }};
     }
 

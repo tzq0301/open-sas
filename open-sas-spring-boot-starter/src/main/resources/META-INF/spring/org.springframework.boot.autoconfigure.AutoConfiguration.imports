@@ -5,6 +5,7 @@ cn.tzq0301.opensasmessagesprintbootstarter.common.Priority
 cn.tzq0301.opensasmessagesprintbootstarter.common.Version
 
 cn.tzq0301.opensasmessagesprintbootstarter.net.config.PortConfig
+cn.tzq0301.opensasmessagesprintbootstarter.net.config.PublisherConfig
 cn.tzq0301.opensasmessagesprintbootstarter.net.config.ServerConfig
 cn.tzq0301.opensasmessagesprintbootstarter.net.config.SubscriberConfig
 
