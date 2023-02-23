@@ -12,6 +12,8 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
+import java.io.IOException;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @SpringBootConfiguration
@@ -34,5 +36,7 @@ public class PublisherConfig implements ApplicationListener<ApplicationReadyEven
         WebSocketClient client = new StandardWebSocketClient();
         var manager = new WebSocketConnectionManager(client, webSocketHandler, serverAddr);
         manager.start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(manager::stop));
     }
 }

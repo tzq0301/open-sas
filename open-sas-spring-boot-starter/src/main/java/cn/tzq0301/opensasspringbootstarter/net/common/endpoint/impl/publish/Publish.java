@@ -1,6 +1,8 @@
 package cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
+import cn.tzq0301.opensasspringbootstarter.channel.impl.PublisherImpl;
+import cn.tzq0301.opensasspringbootstarter.common.Message;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.Endpoint;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.WebSocketEndpoint;
 import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
@@ -29,6 +31,8 @@ public final class Publish implements Endpoint {
 
         PublishRequest request = mapper.convertValue(payload.data(), PublishRequest.class);
         System.out.println(request); // FIXME
-        channel.publish(request.message());
+        Message message = request.message();
+        new PublisherImpl(channel, message.group(), message.version(), message.priority())
+                .publish(request.message().content());
     }
 }

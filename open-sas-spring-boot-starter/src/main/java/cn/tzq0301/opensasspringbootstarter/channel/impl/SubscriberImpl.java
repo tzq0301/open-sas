@@ -17,7 +17,10 @@ public final class SubscriberImpl implements Subscriber {
     private final Priority priority;
     private final SubscriberCallback callback;
 
-    public SubscriberImpl(@NonNull Group group, @NonNull Version version, @NonNull Priority priority, @NonNull SubscriberCallback callback) {
+    public SubscriberImpl(@NonNull final Group group,
+                          @NonNull final Version version,
+                          @NonNull final Priority priority,
+                          @NonNull final SubscriberCallback callback) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);

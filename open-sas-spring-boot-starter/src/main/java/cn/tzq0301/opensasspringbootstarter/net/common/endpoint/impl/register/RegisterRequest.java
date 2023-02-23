@@ -9,7 +9,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @WebSocketEndpointReference(Register.class)
-public record RegisterRequest(@NonNull Group group, @NonNull Version version, @NonNull Priority priority) {
+public record RegisterRequest(@NonNull Group group,
+                              @NonNull Version version,
+                              @NonNull Priority priority) {
     public RegisterRequest {
         checkNotNull(group);
         checkNotNull(version);
