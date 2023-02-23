@@ -1,6 +1,7 @@
 package cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.register;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
+import cn.tzq0301.opensasspringbootstarter.common.Message;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.Endpoint;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.WebSocketEndpoint;
 import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
@@ -33,7 +34,9 @@ public final class Register implements Endpoint {
         RegisterRequest request = mapper.convertValue(payload.data(), RegisterRequest.class);
         channel.registerSubscriber(request.group(), request.version(), request.priority(), content -> {
             try {
-                session.sendMessage(new TextMessage(mapper.writeValueAsString(content)));
+                Message message = new Message(request.group(), request.version(), request.priority(), content);
+                TextMessage textMessage = new TextMessage(mapper.writeValueAsString(message));
+                session.sendMessage(textMessage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
