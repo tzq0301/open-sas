@@ -1,7 +1,7 @@
 package cn.tzq0301.opensasspringbootstarter.channel.impl;
 
-import cn.tzq0301.opensasspringbootstarter.callback.SubscriberCallback;
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
+import cn.tzq0301.opensasspringbootstarter.channel.Subscriber;
 import cn.tzq0301.opensasspringbootstarter.common.Group;
 import cn.tzq0301.opensasspringbootstarter.common.Message;
 import cn.tzq0301.opensasspringbootstarter.common.Priority;
@@ -11,7 +11,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -19,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 @ConditionalOnProperty(prefix = "open-sas", name = "server", havingValue = "true")
 public final class ChannelImpl implements Channel {
-    private final Map<Group, Map<Version, NavigableMap<Priority, SubscriberCallback>>> groupMap;
+    private final Map<Group, Map<Version, NavigableMap<Priority, Subscriber>>> groupMap;
 
     public ChannelImpl() {
         this.groupMap = Maps.newHashMap();
@@ -29,11 +31,11 @@ public final class ChannelImpl implements Channel {
     public synchronized void registerSubscriber(@NonNull final Group group,
                                                 @NonNull final Version version,
                                                 @NonNull final Priority priority,
-                                                @NonNull final SubscriberCallback callback) {
+                                                @NonNull final Subscriber subscriber) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
-        checkNotNull(callback);
+        checkNotNull(subscriber);
 
         if (!groupMap.containsKey(group)) {
             groupMap.put(group, Maps.newHashMap());
@@ -46,7 +48,7 @@ public final class ChannelImpl implements Channel {
 
         var priorityMap = checkNotNull(versionMap.get(version));
         checkArgument(!priorityMap.containsKey(priority), "The subscriber with same group (%s), same priority (%) and same version (%s)", group, priority, version);
-        priorityMap.put(priority, callback);
+        priorityMap.put(priority, subscriber);
     }
 
     @Override
@@ -80,24 +82,24 @@ public final class ChannelImpl implements Channel {
     }
 
     @Override
-    public synchronized void publish(@NonNull final Message message) {
+    public synchronized void publish(@NonNull final Group group,
+                                     @NonNull final Version version,
+                                     @NonNull final Priority priority,
+                                     @NonNull final Message message) {
         checkNotNull(message);
 
-        var group = checkNotNull(message.group());
         if (!groupMap.containsKey(group)) {
             return;
         }
 
         var versionMap = checkNotNull(groupMap.get(group));
-        var version = checkNotNull(message.version());
         if (!versionMap.containsKey(version)) {
             return;
         }
 
         var priorityMap = checkNotNull(versionMap.get(version));
-        var priority = checkNotNull(message.priority());
         Optional.ofNullable(priorityMap.floorEntry(priority))
                 .map(Map.Entry::getValue)
-                .ifPresent(subscriber -> subscriber.onMessage(message.content()));
+                .ifPresent(subscriber -> subscriber.onMessage(message));
     }
 }

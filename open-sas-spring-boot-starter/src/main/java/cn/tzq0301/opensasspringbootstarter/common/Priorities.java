@@ -24,6 +24,6 @@ public final class Priorities {
     @CheckReturnValue
     public static @NonNull Priority cloneByDownGrade(@NonNull final Priority priority) {
         checkNotNull(priority);
-        return cloneWithBias(priority, -1);
+        return cloneByDownGrade(priority, 1);
     }
 }

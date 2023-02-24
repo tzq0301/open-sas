@@ -1,6 +1,6 @@
 package cn.tzq0301.messagepublisherexample.controller;
 
-import cn.tzq0301.opensasspringbootstarter.common.MessageContent;
+import cn.tzq0301.opensasspringbootstarter.common.Message;
 import cn.tzq0301.opensasspringbootstarter.sdk.publisher.MessagePublisher;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ public class TestController {
 
     @GetMapping("/publish/{message}")
     public String publish(@PathVariable String message) {
-        publisher.publish(new MessageContent(message));
+        publisher.publish(new Message(message));
         return "<h1>OK</h1>";
     }
 }

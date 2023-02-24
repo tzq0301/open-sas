@@ -1,6 +1,9 @@
 package cn.tzq0301.opensasspringbootstarter.channel;
 
-import cn.tzq0301.opensasspringbootstarter.callback.PublisherCallback;
+import cn.tzq0301.opensasspringbootstarter.common.Message;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-public interface Publisher extends PublisherCallback {
+@FunctionalInterface
+public interface Publisher {
+    void publish(@NonNull final Message message);
 }

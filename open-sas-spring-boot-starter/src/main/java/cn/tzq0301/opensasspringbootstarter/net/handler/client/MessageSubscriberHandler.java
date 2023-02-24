@@ -11,7 +11,7 @@ import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.registry.End
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.unregister.UnregisterClient;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.unregister.UnregisterRequest;
 import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
-import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.OnMessageCallback;
+import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.OnMessageCallbackRegister;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -40,16 +40,20 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
 
     private final Priority priority;
 
-    private final OnMessageCallback callback;
+//    private final OnMessageCallback callback;
+
+    private final OnMessageCallbackRegister register;
 
     public MessageSubscriberHandler(@NonNull final Group group,
                                     @NonNull final Version version,
                                     @NonNull final Priority priority,
-                                    @NonNull final OnMessageCallback callback) {
+//                                    @NonNull final OnMessageCallback callback,
+                                    @NonNull final OnMessageCallbackRegister register) {
         this.group = group;
         this.version = version;
         this.priority = priority;
-        this.callback = callback;
+//        this.callback = callback;
+        this.register = register;
         this.endpointRegistry = new EndpointRegistryImpl() {{
             register(new RegisterClient());
             register(new UnregisterClient());
@@ -60,12 +64,19 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
     public void afterConnectionEstablished(@NonNull WebSocketSession session) throws Exception {
         checkNotNull(session);
         this.session = session;
-        Payload payload = Payload.fromData(new RegisterRequest(group, version, priority));
-        endpointRegistry.call(payload, session);
+
+        register.forEach(callback -> {
+            Payload payload = Payload.fromData(group, version, priority, new RegisterRequest());
+            endpointRegistry.call(payload, session);
+        });
+
+        // TODO not register here
+//        Payload payload = Payload.fromData(group, version, priority, new RegisterRequest());
+//        endpointRegistry.call(payload, session);
     }
 
     public void shutdown() throws IOException {
-        endpointRegistry.call(Payload.fromData(new UnregisterRequest(group, version, priority)), session);
+        endpointRegistry.call(Payload.fromData(group, version, priority, new UnregisterRequest()), session);
     }
 
     @Override
@@ -74,7 +85,9 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
         checkNotNull(message);
 
         Message messageFromServer = mapper.readValue(message.getPayload().toString(), Message.class);
-        callback.onMessage(messageFromServer);
+        // TODO
+//        callback.onMessage(messageFromServer);
+        register.forEach(callback -> callback.onMessage(messageFromServer));
     }
 
     @Override

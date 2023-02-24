@@ -1,7 +1,10 @@
 package cn.tzq0301.opensasspringbootstarter.net.handler.client;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Publisher;
-import cn.tzq0301.opensasspringbootstarter.common.*;
+import cn.tzq0301.opensasspringbootstarter.common.Group;
+import cn.tzq0301.opensasspringbootstarter.common.Message;
+import cn.tzq0301.opensasspringbootstarter.common.Priority;
+import cn.tzq0301.opensasspringbootstarter.common.Version;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.EndpointRegistry;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishClient;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishRequest;
@@ -32,10 +35,9 @@ public final class MessagePublisherHandler implements WebSocketHandler, Publishe
         this.endpointRegistry = new EndpointRegistryImpl() {{
             register(new PublishClient());
         }};
-        this.publisher = content -> {
-            checkNotNull(content);
-            var message = new Message(group, version, priority, content);
-            endpointRegistry.call(Payload.fromData(new PublishRequest(message)), session);
+        this.publisher = message -> {
+            checkNotNull(message);
+            endpointRegistry.call(Payload.fromData(group, version, priority, new PublishRequest(message)), session);
         };
     }
 
@@ -70,8 +72,8 @@ public final class MessagePublisherHandler implements WebSocketHandler, Publishe
     }
 
     @Override
-    public void publish(@NonNull final MessageContent content) {
-        checkNotNull(content);
-        publisher.publish(content);
+    public void publish(@NonNull final Message message) {
+        checkNotNull(message);
+        publisher.publish(message);
     }
 }

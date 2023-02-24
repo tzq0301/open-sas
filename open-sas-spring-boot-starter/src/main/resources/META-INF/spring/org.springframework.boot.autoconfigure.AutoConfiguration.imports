@@ -9,6 +9,7 @@ cn.tzq0301.opensasspringbootstarter.net.config.PublisherConfig
 cn.tzq0301.opensasspringbootstarter.net.config.ServerConfig
 cn.tzq0301.opensasspringbootstarter.net.config.SubscriberConfig
 
+cn.tzq0301.opensasspringbootstarter.net.handler.client.MessagePublisherHandler
 cn.tzq0301.opensasspringbootstarter.net.handler.client.MessageSubscriberHandler
 cn.tzq0301.opensasspringbootstarter.net.handler.server.MessageServerHandler
 

@@ -27,8 +27,7 @@ public final class Unregister implements Endpoint {
         checkNotNull(payload);
         checkNotNull(session);
 
-        UnregisterRequest request = mapper.convertValue(payload.data(), UnregisterRequest.class);
-        channel.unregisterSubscriber(request.group(), request.version(), request.priority());
+        channel.unregisterSubscriber(payload.group(), payload.version(), payload.priority());
     }
 
 }
