@@ -30,9 +30,12 @@ public final class Register implements Endpoint {
         checkNotNull(payload);
         checkNotNull(session);
 
+        System.out.println(payload); // FIXME
+
         channel.registerSubscriber(payload.group(), payload.version(), payload.priority(), message -> {
             try {
                 String text = mapper.writeValueAsString(message);
+                System.out.println(text); // FIXME
                 TextMessage textMessage = new TextMessage(text);
                 session.sendMessage(textMessage);
             } catch (IOException e) {
