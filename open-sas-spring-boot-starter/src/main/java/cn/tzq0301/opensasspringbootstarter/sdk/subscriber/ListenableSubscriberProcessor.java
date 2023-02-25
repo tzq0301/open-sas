@@ -11,20 +11,18 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Component
-@Import({ListenableSubscriberRegistry.class})
+@Import({SubscriberCallbackRegistry.class})
 @ConditionalOnProperty(prefix = "open-sas.subscriber", name = "enable", havingValue = "true")
 public class ListenableSubscriberProcessor implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
     private ApplicationContext applicationContext;
 
-    private final ListenableSubscriberRegistry listenableSubscriberRegistry;
+    private final SubscriberCallbackRegistry subscriberCallbackRegistry;
 
-    public ListenableSubscriberProcessor(@NonNull final ListenableSubscriberRegistry listenableSubscriberRegistry) {
-        this.listenableSubscriberRegistry = listenableSubscriberRegistry;
+    public ListenableSubscriberProcessor(@NonNull final SubscriberCallbackRegistry subscriberCallbackRegistry) {
+        this.subscriberCallbackRegistry = subscriberCallbackRegistry;
     }
 
     @Override
@@ -52,7 +50,7 @@ public class ListenableSubscriberProcessor implements ApplicationContextAware, A
                         + " should implement interface " + ListenableSubscriber.class.getSimpleName() + " " + objClz);
             }
 
-            listenableSubscriberRegistry.add((ListenableSubscriber) obj);
+            subscriberCallbackRegistry.add((ListenableSubscriber) obj);
         }
     }
 }

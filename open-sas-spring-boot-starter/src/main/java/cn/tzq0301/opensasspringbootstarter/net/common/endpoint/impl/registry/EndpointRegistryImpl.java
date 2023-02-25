@@ -2,8 +2,8 @@ package cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.registry;
 
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.Endpoint;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.EndpointRegistry;
-import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.util.WebSocketEndpointUtils;
+import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
 import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.web.socket.WebSocketSession;
