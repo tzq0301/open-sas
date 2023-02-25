@@ -10,18 +10,18 @@ import java.util.function.Consumer;
 
 @Component
 @ConditionalOnProperty(prefix = "open-sas.subscriber", name = "enable", havingValue = "true")
-public final class SubscriberOnMessageCallbackRegistry {
-    private final List<SubscriberOnMessageCallback> list;
+public final class ListenableSubscriberRegistry {
+    private final List<ListenableSubscriber> list;
 
-    public SubscriberOnMessageCallbackRegistry() {
+    public ListenableSubscriberRegistry() {
         this.list = Lists.newArrayList();
     }
 
-    public void add(@NonNull final SubscriberOnMessageCallback callback) {
+    public void add(@NonNull final ListenableSubscriber callback) {
         list.add(callback);
     }
 
-    public void forEach(Consumer<SubscriberOnMessageCallback> consumer) {
+    public void forEach(Consumer<ListenableSubscriber> consumer) {
         list.forEach(consumer);
     }
 }

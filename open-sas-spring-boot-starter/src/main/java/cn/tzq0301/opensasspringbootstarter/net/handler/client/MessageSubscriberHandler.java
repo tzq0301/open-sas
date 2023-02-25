@@ -11,7 +11,7 @@ import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.registry.End
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.unregister.UnregisterClient;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.unregister.UnregisterRequest;
 import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
-import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.SubscriberOnMessageCallbackRegistry;
+import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.ListenableSubscriberRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -40,12 +40,12 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
 
     private final Priority priority;
 
-    private final SubscriberOnMessageCallbackRegistry callbackRegistry;
+    private final ListenableSubscriberRegistry callbackRegistry;
 
     public MessageSubscriberHandler(@NonNull final Group group,
                                     @NonNull final Version version,
                                     @NonNull final Priority priority,
-                                    @NonNull final SubscriberOnMessageCallbackRegistry callbackRegistry) {
+                                    @NonNull final ListenableSubscriberRegistry callbackRegistry) {
         this.group = group;
         this.version = version;
         this.priority = priority;

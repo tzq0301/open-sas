@@ -14,5 +14,5 @@ cn.tzq0301.opensasspringbootstarter.net.handler.client.MessageSubscriberHandler
 cn.tzq0301.opensasspringbootstarter.net.handler.server.MessageServerHandler
 
 cn.tzq0301.opensasspringbootstarter.sdk.publisher.MessagePublisher
-cn.tzq0301.opensasspringbootstarter.sdk.subscriber.ListenerProcessor
-cn.tzq0301.opensasspringbootstarter.sdk.subscriber.SubscriberOnMessageCallbackRegistry
+cn.tzq0301.opensasspringbootstarter.sdk.subscriber.ListenableSubscriberProcessor
+cn.tzq0301.opensasspringbootstarter.sdk.subscriber.ListenableSubscriberRegistry

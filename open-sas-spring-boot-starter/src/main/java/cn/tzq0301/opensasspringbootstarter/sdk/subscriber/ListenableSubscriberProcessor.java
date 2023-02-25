@@ -11,21 +11,20 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Component
-@Import({SubscriberOnMessageCallbackRegistry.class})
+@Import({ListenableSubscriberRegistry.class})
 @ConditionalOnProperty(prefix = "open-sas.subscriber", name = "enable", havingValue = "true")
-public class ListenerProcessor implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
+public class ListenableSubscriberProcessor implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
     private ApplicationContext applicationContext;
 
-    private final SubscriberOnMessageCallbackRegistry callbackRegistry;
+    private final ListenableSubscriberRegistry listenableSubscriberRegistry;
 
-    public ListenerProcessor(@NonNull final SubscriberOnMessageCallbackRegistry callbackRegistry) {
-        this.callbackRegistry = callbackRegistry;
+    public ListenableSubscriberProcessor(@NonNull final ListenableSubscriberRegistry listenableSubscriberRegistry) {
+        this.listenableSubscriberRegistry = listenableSubscriberRegistry;
     }
 
     @Override
@@ -44,16 +43,16 @@ public class ListenerProcessor implements ApplicationContextAware, ApplicationLi
                 objClz = AopUtils.getTargetClass(obj);
             }
 
-            for (Method m : objClz.getDeclaredMethods()) {
-                if (m.isAnnotationPresent(Listener.class)) {
-                    try {
-                        callbackRegistry.add((SubscriberOnMessageCallback) m.invoke(obj));
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-//                        System.exit();
-                    }
-                }
+            if (!objClz.isAnnotationPresent(Listener.class)) {
+                continue;
             }
+
+            if (!ListenableSubscriber.class.isAssignableFrom(objClz)) {
+                throw new RuntimeException("Class annotated by @" + Listener.class.getSimpleName()
+                        + " should implement interface " + ListenableSubscriber.class.getSimpleName() + " " + objClz);
+            }
+
+            listenableSubscriberRegistry.add((ListenableSubscriber) obj);
         }
     }
 }
