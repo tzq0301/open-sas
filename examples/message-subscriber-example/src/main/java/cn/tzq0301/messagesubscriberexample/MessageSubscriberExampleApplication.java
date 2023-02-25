@@ -1,7 +1,7 @@
 package cn.tzq0301.messagesubscriberexample;
 
 import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.Listener;
-import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.OnMessageCallback;
+import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.SubscriberOnMessageCallback;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ public class MessageSubscriberExampleApplication {
     public static class Callback {
         @Listener
         @SuppressWarnings("unused")
-        public OnMessageCallback onMessageCallback() {
+        public SubscriberOnMessageCallback onMessageCallback() {
             return System.out::println;
         }
     }

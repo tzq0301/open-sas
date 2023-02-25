@@ -1,7 +1,7 @@
 package cn.tzq0301.opensasspringbootstarter.channel.impl;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
-import cn.tzq0301.opensasspringbootstarter.channel.Subscriber;
+import cn.tzq0301.opensasspringbootstarter.channel.SubscriberCallback;
 import cn.tzq0301.opensasspringbootstarter.common.Group;
 import cn.tzq0301.opensasspringbootstarter.common.Message;
 import cn.tzq0301.opensasspringbootstarter.common.Priority;
@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 @ConditionalOnProperty(prefix = "open-sas", name = "server", havingValue = "true")
 public final class ChannelImpl implements Channel {
-    private final Map<Group, Map<Version, NavigableMap<Priority, Subscriber>>> groupMap;
+    private final Map<Group, Map<Version, NavigableMap<Priority, SubscriberCallback>>> groupMap;
 
     public ChannelImpl() {
         this.groupMap = Maps.newHashMap();
@@ -31,7 +31,7 @@ public final class ChannelImpl implements Channel {
     public synchronized void registerSubscriber(@NonNull final Group group,
                                                 @NonNull final Version version,
                                                 @NonNull final Priority priority,
-                                                @NonNull final Subscriber subscriber) {
+                                                @NonNull final SubscriberCallback subscriber) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);

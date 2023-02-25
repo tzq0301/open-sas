@@ -3,7 +3,7 @@ package cn.tzq0301.opensasspringbootstarter.net.common.payload;
 import cn.tzq0301.opensasspringbootstarter.common.Group;
 import cn.tzq0301.opensasspringbootstarter.common.Priority;
 import cn.tzq0301.opensasspringbootstarter.common.Version;
-import cn.tzq0301.opensasspringbootstarter.net.util.WebSocketEndpointReferenceUtils;
+import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.util.WebSocketEndpointReferenceUtils;
 import com.google.errorprone.annotations.CheckReturnValue;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;

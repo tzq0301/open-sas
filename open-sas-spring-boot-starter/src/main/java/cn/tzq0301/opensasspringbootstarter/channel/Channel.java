@@ -10,7 +10,7 @@ public interface Channel {
     void registerSubscriber(@NonNull final Group group,
                             @NonNull final Version version,
                             @NonNull final Priority priority,
-                            @NonNull final Subscriber subscriber);
+                            @NonNull final SubscriberCallback subscriber);
 
     void unregisterSubscriber(@NonNull final Group group,
                               @NonNull final Version version,

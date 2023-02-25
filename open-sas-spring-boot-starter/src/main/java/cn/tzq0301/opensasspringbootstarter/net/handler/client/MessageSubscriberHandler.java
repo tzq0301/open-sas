@@ -11,7 +11,7 @@ import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.registry.End
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.unregister.UnregisterClient;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.unregister.UnregisterRequest;
 import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
-import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.OnMessageCallbackRegistry;
+import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.SubscriberOnMessageCallbackRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -40,13 +40,12 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
 
     private final Priority priority;
 
-
-    private final OnMessageCallbackRegistry callbackRegistry;
+    private final SubscriberOnMessageCallbackRegistry callbackRegistry;
 
     public MessageSubscriberHandler(@NonNull final Group group,
                                     @NonNull final Version version,
                                     @NonNull final Priority priority,
-                                    @NonNull final OnMessageCallbackRegistry callbackRegistry) {
+                                    @NonNull final SubscriberOnMessageCallbackRegistry callbackRegistry) {
         this.group = group;
         this.version = version;
         this.priority = priority;
@@ -63,14 +62,16 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
         this.session = session;
 
         callbackRegistry.forEach(callback -> {
-            Payload payload = Payload.fromData(group, version, priority, new RegisterRequest());
-            endpointRegistry.call(payload, session);
+            Payload registerPayload = Payload.fromData(group, version, priority, new RegisterRequest());
+            endpointRegistry.call(registerPayload, session);
         });
     }
 
     public void shutdown() throws IOException {
-        // TODO with callback registry
-        endpointRegistry.call(Payload.fromData(group, version, priority, new UnregisterRequest()), session);
+        callbackRegistry.forEach(callback -> {
+            Payload unregisterPayload = Payload.fromData(group, version, priority, new UnregisterRequest());
+            endpointRegistry.call(unregisterPayload, session);
+        });
     }
 
     @Override
