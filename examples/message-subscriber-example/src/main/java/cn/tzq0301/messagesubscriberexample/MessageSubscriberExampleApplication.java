@@ -3,7 +3,7 @@ package cn.tzq0301.messagesubscriberexample;
 import cn.tzq0301.opensasspringbootstarter.common.Message;
 import cn.tzq0301.opensasspringbootstarter.common.Topic;
 import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.ListenableSubscriber;
-import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.Listener;
+import cn.tzq0301.opensasspringbootstarter.sdk.common.Listener;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class ChannelClient implements Channel {
+public final class ChannelClient implements Channel {
     private final EndpointRegistry endpointRegistry;
 
     private final WebSocketSession session;

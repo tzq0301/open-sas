@@ -1,4 +1,4 @@
-package cn.tzq0301.opensasspringbootstarter.sdk.subscriber;
+package cn.tzq0301.opensasspringbootstarter.sdk.common;
 
 import org.springframework.stereotype.Component;
 
@@ -13,4 +13,3 @@ import java.lang.annotation.Target;
 public @interface Listener {
     String topic();
 }
-
