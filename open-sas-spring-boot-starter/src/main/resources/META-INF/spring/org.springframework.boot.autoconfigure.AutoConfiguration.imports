@@ -4,6 +4,7 @@ cn.tzq0301.opensasspringbootstarter.common.Group
 cn.tzq0301.opensasspringbootstarter.common.Priority
 cn.tzq0301.opensasspringbootstarter.common.Version
 
+cn.tzq0301.opensasspringbootstarter.net.config.MiddlewareConfig
 cn.tzq0301.opensasspringbootstarter.net.config.PortConfig
 cn.tzq0301.opensasspringbootstarter.net.config.PublisherConfig
 cn.tzq0301.opensasspringbootstarter.net.config.ServerConfig

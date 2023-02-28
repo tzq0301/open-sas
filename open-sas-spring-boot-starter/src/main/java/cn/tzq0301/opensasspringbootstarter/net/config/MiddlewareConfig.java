@@ -25,7 +25,7 @@ public class MiddlewareConfig implements ApplicationListener<ApplicationReadyEve
 
     private final MessageMiddlewareHandler webSocketHandler;
 
-    public MiddlewareConfig(@Value("${open-sas.subscriber.server-addr}") String serverAddr,
+    public MiddlewareConfig(@Value("${open-sas.middleware.server-addr}") String serverAddr,
                             MessageMiddlewareHandler webSocketHandler) {
         this.serverAddr = serverAddr;
         this.webSocketHandler = webSocketHandler;
