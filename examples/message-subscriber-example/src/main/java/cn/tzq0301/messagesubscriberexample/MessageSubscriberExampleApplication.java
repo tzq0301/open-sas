@@ -1,12 +1,13 @@
 package cn.tzq0301.messagesubscriberexample;
 
-import cn.tzq0301.opensasspringbootstarter.common.Message;
-import cn.tzq0301.opensasspringbootstarter.common.Topic;
+import cn.tzq0301.opensasspringbootstarter.common.*;
+import cn.tzq0301.opensasspringbootstarter.net.handler.server.MessageServerHandler;
 import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.ListenableSubscriber;
 import cn.tzq0301.opensasspringbootstarter.sdk.common.Listener;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class MessageSubscriberExampleApplication {
@@ -27,7 +28,10 @@ public class MessageSubscriberExampleApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(MessageSubscriberExampleApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(MessageSubscriberExampleApplication.class, args);
+        System.out.println(context.getBean(Group.class));
+        System.out.println(context.getBean(Version.class));
+        System.out.println(context.getBean(Priority.class));
     }
 
 }

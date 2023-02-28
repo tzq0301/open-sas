@@ -80,6 +80,7 @@ public final class ChannelImpl implements Channel {
         if (topicMap.isEmpty()) {
             versionMap.remove(version);
         }
+
         // dynamically remove versionMap if empty
         if (versionMap.isEmpty()) {
             groupMap.remove(group);
