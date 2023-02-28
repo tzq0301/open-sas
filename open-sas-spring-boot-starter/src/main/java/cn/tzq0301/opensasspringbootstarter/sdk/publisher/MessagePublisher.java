@@ -2,6 +2,7 @@ package cn.tzq0301.opensasspringbootstarter.sdk.publisher;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Publisher;
 import cn.tzq0301.opensasspringbootstarter.common.Message;
+import cn.tzq0301.opensasspringbootstarter.common.Topic;
 import cn.tzq0301.opensasspringbootstarter.net.handler.client.MessagePublisherHandler;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -22,8 +23,8 @@ public final class MessagePublisher implements Publisher {
     }
 
     @Override
-    public void publish(@NonNull final Message message) {
+    public void publish(@NonNull final Topic topic, @NonNull final Message message) {
         checkNotNull(message);
-        handler.publish(message);
+        handler.publish(topic, message);
     }
 }

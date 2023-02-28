@@ -2,10 +2,7 @@ package cn.tzq0301.opensasspringbootstarter.net.channel;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
 import cn.tzq0301.opensasspringbootstarter.channel.SubscriberCallback;
-import cn.tzq0301.opensasspringbootstarter.common.Group;
-import cn.tzq0301.opensasspringbootstarter.common.Message;
-import cn.tzq0301.opensasspringbootstarter.common.Priority;
-import cn.tzq0301.opensasspringbootstarter.common.Version;
+import cn.tzq0301.opensasspringbootstarter.common.*;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.EndpointRegistry;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishClient;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishRequest;
@@ -17,6 +14,8 @@ import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.unregister.U
 import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.web.socket.WebSocketSession;
+
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,12 +34,15 @@ public class ChannelClient implements Channel {
     }
 
     @Override
-    public void registerSubscriber(@NonNull Group group, @NonNull Version version, @NonNull Priority priority, @NonNull SubscriberCallback subscriber) {
+    public void registerSubscriber(@NonNull final Group group,
+                                   @NonNull final Version version,
+                                   @NonNull final Priority priority,
+                                   @NonNull final Map<Topic, SubscriberCallback> topicToCallbackMap) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
-        checkNotNull(subscriber);
-        Payload registerPayload = Payload.fromData(group, version, priority, new RegisterRequest());
+        checkNotNull(topicToCallbackMap);
+        Payload registerPayload = Payload.fromData(group, version, priority, new RegisterRequest(topicToCallbackMap.keySet()));
         endpointRegistry.call(registerPayload, session);
     }
 
@@ -54,12 +56,17 @@ public class ChannelClient implements Channel {
     }
 
     @Override
-    public void publish(@NonNull Group group, @NonNull Version version, @NonNull Priority priority, @NonNull Message message) {
+    public void publish(@NonNull final Group group,
+                        @NonNull final Version version,
+                        @NonNull final Priority priority,
+                        @NonNull final Topic topic,
+                        @NonNull final Message message) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
         checkNotNull(message);
-        Payload publishPayload = Payload.fromData(group, version, priority, new PublishRequest(message));
+        PublishRequest publishRequest = new PublishRequest(topic, message);
+        Payload publishPayload = Payload.fromData(group, version, priority, publishRequest);
         endpointRegistry.call(publishPayload, session);
     }
 }

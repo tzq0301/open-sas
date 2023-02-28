@@ -3,13 +3,10 @@ package cn.tzq0301.opensasspringbootstarter.net.channel;
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
 import cn.tzq0301.opensasspringbootstarter.channel.Subscriber;
 import cn.tzq0301.opensasspringbootstarter.channel.SubscriberCallback;
-import cn.tzq0301.opensasspringbootstarter.common.Group;
-import cn.tzq0301.opensasspringbootstarter.common.Message;
-import cn.tzq0301.opensasspringbootstarter.common.Priority;
-import cn.tzq0301.opensasspringbootstarter.common.Version;
+import cn.tzq0301.opensasspringbootstarter.common.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -20,34 +17,34 @@ public final class SubscriberClient implements Subscriber {
 
     private final Priority priority;
 
-    private final List<SubscriberCallback> callbacks;
+    private final Map<Topic, SubscriberCallback> topicToCallbackMap;
 
     public SubscriberClient(@NonNull final Group group,
                             @NonNull final Version version,
                             @NonNull final Priority priority,
-                            @NonNull final List<SubscriberCallback> callbacks) {
+                            @NonNull final Map<Topic, SubscriberCallback> topicToCallbackMap) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
-        checkNotNull(callbacks);
+        checkNotNull(topicToCallbackMap);
         this.group = group;
         this.version = version;
         this.priority = priority;
-        this.callbacks = callbacks;
+        this.topicToCallbackMap = topicToCallbackMap;
     }
 
     @Override
     public void subscribe(@NonNull Channel channel) {
-        callbacks.forEach(callback -> channel.registerSubscriber(group, version, priority, callback));
+        channel.registerSubscriber(group, version, priority, topicToCallbackMap);
     }
 
     @Override
     public void unsubscribe(@NonNull Channel channel) {
-        callbacks.forEach(callback -> channel.unregisterSubscriber(group, version, priority));
+        channel.unregisterSubscriber(group, version, priority);
     }
 
     @Override
-    public void onMessage(@NonNull Message message) {
-        callbacks.forEach(callback -> callback.onMessage(message));
+    public void onMessage(@NonNull final Topic topic, @NonNull final Message message) {
+        checkNotNull(topicToCallbackMap.get(topic)).onMessage(topic, message);
     }
 }

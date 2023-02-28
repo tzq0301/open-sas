@@ -1,5 +1,6 @@
 package cn.tzq0301.opensasspringbootstarter.sdk.subscriber;
 
+import cn.tzq0301.opensasspringbootstarter.common.Topic;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
@@ -50,7 +51,9 @@ public class ListenableSubscriberProcessor implements ApplicationContextAware, A
                         + " should implement interface " + ListenableSubscriber.class.getSimpleName() + " " + objClz);
             }
 
-            subscriberCallbackRegistry.add((ListenableSubscriber) obj);
+            Topic topic = new Topic(objClz.getAnnotation(Listener.class).topic());
+
+            subscriberCallbackRegistry.add(topic, (ListenableSubscriber) obj);
         }
     }
 }

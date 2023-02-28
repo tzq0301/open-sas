@@ -3,11 +3,10 @@ package cn.tzq0301.opensasspringbootstarter.channel.impl;
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
 import cn.tzq0301.opensasspringbootstarter.channel.Subscriber;
 import cn.tzq0301.opensasspringbootstarter.channel.SubscriberCallback;
-import cn.tzq0301.opensasspringbootstarter.common.Group;
-import cn.tzq0301.opensasspringbootstarter.common.Message;
-import cn.tzq0301.opensasspringbootstarter.common.Priority;
-import cn.tzq0301.opensasspringbootstarter.common.Version;
+import cn.tzq0301.opensasspringbootstarter.common.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -18,31 +17,33 @@ public class SubscriberImpl implements Subscriber {
 
     private final Priority priority;
 
-    private final SubscriberCallback callback;
+    private final Map<Topic, SubscriberCallback> topicToCallbackMap;
 
     public SubscriberImpl(@NonNull final Group group,
                           @NonNull final Version version,
                           @NonNull final Priority priority,
-                          @NonNull final SubscriberCallback callback) {
+                          @NonNull final Map<Topic, SubscriberCallback> topicToCallbackMap) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
-        checkNotNull(callback);
+        checkNotNull(topicToCallbackMap);
         this.group = group;
         this.version = version;
         this.priority = priority;
-        this.callback = callback;
+        this.topicToCallbackMap = topicToCallbackMap;
     }
 
     @Override
-    public void onMessage(@NonNull Message message) {
-        callback.onMessage(message);
+    public void onMessage(@NonNull final Topic topic, @NonNull Message message) {
+        checkNotNull(message);
+        SubscriberCallback callback = checkNotNull(topicToCallbackMap.get(topic));
+        callback.onMessage(topic, message);
     }
 
     @Override
     public void subscribe(@NonNull Channel channel) {
         checkNotNull(channel);
-        channel.registerSubscriber(group, version, priority, callback);
+        channel.registerSubscriber(group, version, priority, topicToCallbackMap);
     }
 
     @Override

@@ -1,33 +1,43 @@
 package cn.tzq0301.opensasspringbootstarter.sdk.subscriber;
 
 import cn.tzq0301.opensasspringbootstarter.channel.SubscriberCallback;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import cn.tzq0301.opensasspringbootstarter.common.Message;
+import cn.tzq0301.opensasspringbootstarter.common.Topic;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.function.Consumer;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Component
 @ConditionalOnProperty(prefix = "open-sas.subscriber", name = "enable", havingValue = "true")
-public final class SubscriberCallbackRegistry {
-    private final List<SubscriberCallback> list;
+public final class SubscriberCallbackRegistry implements SubscriberCallback {
+    private final Map<Topic, SubscriberCallback> topicToCallbackMap;
 
     public SubscriberCallbackRegistry() {
-        this.list = Lists.newArrayList();
+        this.topicToCallbackMap = Maps.newHashMap();
     }
 
-    public void add(@NonNull final SubscriberCallback callback) {
-        list.add(callback);
+    public void add(@NonNull final Topic topic, @NonNull final SubscriberCallback callback) {
+        checkNotNull(topic);
+        checkNotNull(callback);
+        checkArgument(topicToCallbackMap.get(topic) == null, "duplicate listener for same topic (%s)", topic);
+        topicToCallbackMap.put(topic, callback);
     }
 
-    public void forEach(Consumer<SubscriberCallback> consumer) {
-        list.forEach(consumer);
+    public Map<Topic, SubscriberCallback> getCallbacks() {
+        return ImmutableMap.copyOf(topicToCallbackMap);
     }
 
-    public List<SubscriberCallback> getCallbacks() {
-        return ImmutableList.copyOf(list);
+    @Override
+    public void onMessage(@NonNull Topic topic, @NonNull Message message) {
+        checkNotNull(topic);
+        checkNotNull(message);
+        checkNotNull(topicToCallbackMap.get(topic)).onMessage(topic, message);
     }
 }

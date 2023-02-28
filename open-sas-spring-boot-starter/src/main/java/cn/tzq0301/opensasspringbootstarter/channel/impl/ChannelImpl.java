@@ -2,10 +2,7 @@ package cn.tzq0301.opensasspringbootstarter.channel.impl;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
 import cn.tzq0301.opensasspringbootstarter.channel.SubscriberCallback;
-import cn.tzq0301.opensasspringbootstarter.common.Group;
-import cn.tzq0301.opensasspringbootstarter.common.Message;
-import cn.tzq0301.opensasspringbootstarter.common.Priority;
-import cn.tzq0301.opensasspringbootstarter.common.Version;
+import cn.tzq0301.opensasspringbootstarter.common.*;
 import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,7 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 @ConditionalOnProperty(prefix = "open-sas", name = "server", havingValue = "true")
 public final class ChannelImpl implements Channel {
-    private final Map<Group, Map<Version, NavigableMap<Priority, SubscriberCallback>>> groupMap;
+    private final Map<Group, Map<Version, Map<Topic, NavigableMap<Priority, SubscriberCallback>>>> groupMap;
 
     public ChannelImpl() {
         this.groupMap = Maps.newHashMap();
@@ -31,11 +28,11 @@ public final class ChannelImpl implements Channel {
     public synchronized void registerSubscriber(@NonNull final Group group,
                                                 @NonNull final Version version,
                                                 @NonNull final Priority priority,
-                                                @NonNull final SubscriberCallback subscriber) {
+                                                @NonNull final Map<Topic, SubscriberCallback> topicToCallbackMap) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
-        checkNotNull(subscriber);
+        checkNotNull(topicToCallbackMap);
 
         if (!groupMap.containsKey(group)) {
             groupMap.put(group, Maps.newHashMap());
@@ -43,12 +40,18 @@ public final class ChannelImpl implements Channel {
 
         var versionMap = checkNotNull(groupMap.get(group));
         if (!versionMap.containsKey(version)) {
-            versionMap.put(version, Maps.newTreeMap());
+            versionMap.put(version, Maps.newHashMap());
         }
 
-        var priorityMap = checkNotNull(versionMap.get(version));
-        checkArgument(!priorityMap.containsKey(priority), "The subscriber with same group (%s), same priority (%) and same version (%s)", group, priority, version);
-        priorityMap.put(priority, subscriber);
+        var topicMap = checkNotNull(versionMap.get(version));
+        topicToCallbackMap.forEach((topic, subscriberCallback) -> {
+            if (!topicMap.containsKey(topic)) {
+                topicMap.put(topic, Maps.newTreeMap());
+            }
+            var priorityMap = checkNotNull(topicMap.get(topic));
+            checkArgument(!priorityMap.containsKey(priority), "The subscriber with same group (%s), same version (%s), same priority (%), same topic(%s)", group, version, priority, topic);
+            priorityMap.put(priority, subscriberCallback);
+        });
     }
 
     @Override
@@ -64,17 +67,19 @@ public final class ChannelImpl implements Channel {
         var versionMap = checkNotNull(groupMap.get(group));
         checkArgument(versionMap.containsKey(version), "Version (%s) is not exists", version);
 
-        var priorityMap = checkNotNull(versionMap.get(version));
-        checkArgument(priorityMap.containsKey(priority), "Priority (%s) is not exists", priority);
+        var topicMap = checkNotNull(versionMap.get(version));
+        topicMap.forEach((topic, prioritySubscriberCallbackNavigableMap) -> {
+            var priorityMap = checkNotNull(topicMap.get(topic));
+            // remove subscribe
+            priorityMap.remove(priority);
+        });
 
-        // remove subscribe
-        priorityMap.remove(priority);
+        topicMap.entrySet().removeIf(entry -> entry.getValue().isEmpty());
 
-        // dynamically remove priorityMap if empty
-        if (priorityMap.isEmpty()) {
+        // dynamically remove topicMap if empty
+        if (topicMap.isEmpty()) {
             versionMap.remove(version);
         }
-
         // dynamically remove versionMap if empty
         if (versionMap.isEmpty()) {
             groupMap.remove(group);
@@ -85,6 +90,7 @@ public final class ChannelImpl implements Channel {
     public synchronized void publish(@NonNull final Group group,
                                      @NonNull final Version version,
                                      @NonNull final Priority priority,
+                                     @NonNull final Topic topic,
                                      @NonNull final Message message) {
         checkNotNull(message);
 
@@ -97,9 +103,14 @@ public final class ChannelImpl implements Channel {
             return;
         }
 
-        var priorityMap = checkNotNull(versionMap.get(version));
+        var topicMap = checkNotNull(versionMap.get(version));
+        if (!topicMap.containsKey(topic)) {
+            return;
+        }
+
+        var priorityMap = checkNotNull(topicMap.get(topic));
         Optional.ofNullable(priorityMap.floorEntry(priority))
                 .map(Map.Entry::getValue)
-                .ifPresent(subscriber -> subscriber.onMessage(message));
+                .ifPresent(callback -> callback.onMessage(topic, message));
     }
 }

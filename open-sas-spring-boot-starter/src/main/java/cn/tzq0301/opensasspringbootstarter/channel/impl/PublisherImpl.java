@@ -2,10 +2,7 @@ package cn.tzq0301.opensasspringbootstarter.channel.impl;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
 import cn.tzq0301.opensasspringbootstarter.channel.Publisher;
-import cn.tzq0301.opensasspringbootstarter.common.Group;
-import cn.tzq0301.opensasspringbootstarter.common.Message;
-import cn.tzq0301.opensasspringbootstarter.common.Priority;
-import cn.tzq0301.opensasspringbootstarter.common.Version;
+import cn.tzq0301.opensasspringbootstarter.common.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -34,7 +31,8 @@ public class PublisherImpl implements Publisher {
     }
 
     @Override
-    public void publish(@NonNull Message message) {
-        channel.publish(group, version, priority, message);
+    public void publish(@NonNull final Topic topic, @NonNull final Message message) {
+        checkNotNull(message);
+        channel.publish(group, version, priority, topic, message);
     }
 }

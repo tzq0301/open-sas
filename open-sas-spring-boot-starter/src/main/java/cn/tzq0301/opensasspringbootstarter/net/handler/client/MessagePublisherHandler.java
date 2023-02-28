@@ -2,10 +2,7 @@ package cn.tzq0301.opensasspringbootstarter.net.handler.client;
 
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
 import cn.tzq0301.opensasspringbootstarter.channel.Publisher;
-import cn.tzq0301.opensasspringbootstarter.common.Group;
-import cn.tzq0301.opensasspringbootstarter.common.Message;
-import cn.tzq0301.opensasspringbootstarter.common.Priority;
-import cn.tzq0301.opensasspringbootstarter.common.Version;
+import cn.tzq0301.opensasspringbootstarter.common.*;
 import cn.tzq0301.opensasspringbootstarter.net.channel.ChannelClient;
 import cn.tzq0301.opensasspringbootstarter.net.channel.PublisherClient;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -72,9 +69,9 @@ public final class MessagePublisherHandler implements WebSocketHandler, Publishe
     }
 
     @Override
-    public void publish(@NonNull final Message message) {
+    public void publish(@NonNull final Topic topic, @NonNull final Message message) {
         checkNotNull(message);
         checkNotNull(publisher);
-        publisher.publish(message);
+        publisher.publish(topic, message);
     }
 }

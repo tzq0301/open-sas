@@ -3,11 +3,16 @@ package cn.tzq0301.opensasspringbootstarter.net.handler.client;
 import cn.tzq0301.opensasspringbootstarter.channel.Channel;
 import cn.tzq0301.opensasspringbootstarter.channel.Subscriber;
 import cn.tzq0301.opensasspringbootstarter.common.Group;
-import cn.tzq0301.opensasspringbootstarter.common.Message;
 import cn.tzq0301.opensasspringbootstarter.common.Priority;
 import cn.tzq0301.opensasspringbootstarter.common.Version;
 import cn.tzq0301.opensasspringbootstarter.net.channel.ChannelClient;
 import cn.tzq0301.opensasspringbootstarter.net.channel.SubscriberClient;
+import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.EndpointRegistry;
+import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.Publish;
+import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishClient;
+import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishRequest;
+import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.registry.EndpointRegistryImpl;
+import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;
 import cn.tzq0301.opensasspringbootstarter.sdk.subscriber.SubscriberCallbackRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -52,7 +57,9 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
     @Override
     public void afterConnectionEstablished(@NonNull WebSocketSession session) throws Exception {
         checkNotNull(session);
+
         channel = new ChannelClient(session);
+
         subscriber = new SubscriberClient(group, version, priority, callbackRegistry.getCallbacks());
         subscriber.subscribe(channel);
     }
@@ -68,8 +75,9 @@ public final class MessageSubscriberHandler implements WebSocketHandler {
         checkNotNull(session);
         checkNotNull(message);
 
-        Message messageFromServer = mapper.readValue(message.getPayload().toString(), Message.class);
-        callbackRegistry.forEach(callback -> callback.onMessage(messageFromServer));
+        Payload payloadFromServer = mapper.readValue(message.getPayload().toString(), Payload.class);
+        PublishRequest publishRequest = mapper.convertValue(payloadFromServer.data(), PublishRequest.class);
+        callbackRegistry.onMessage(publishRequest.topic(), publishRequest.message());
     }
 
     @Override
