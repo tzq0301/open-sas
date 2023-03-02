@@ -24,7 +24,7 @@ public final class MiddlewareClient implements Middleware {
         checkNotNull(version);
         checkNotNull(priority);
         checkNotNull(topicToCallbackMap);
-        this.publisher = (topic, message) -> channel.publish(group, version, Priorities.cloneByDownGrade(priority), topic, message);
+        this.publisher = (topic, message) -> channel.publish(group, version, priority.cloneByDownGrade(), topic, message);
         this.subscriber = new SubscriberImpl(group, version, priority, new HashMap<>() {{
             topicToCallbackMap.forEach((topic, callback) -> put(topic, (t, message) -> callback.onMessage(t, message, publisher)));
         }});

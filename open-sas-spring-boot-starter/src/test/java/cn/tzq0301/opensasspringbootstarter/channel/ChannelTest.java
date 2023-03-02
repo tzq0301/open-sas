@@ -5,14 +5,13 @@ import cn.tzq0301.opensasspringbootstarter.channel.impl.PublisherImpl;
 import cn.tzq0301.opensasspringbootstarter.channel.impl.SubscriberImpl;
 import cn.tzq0301.opensasspringbootstarter.common.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ChannelTest {
     static class MiddlewareImpl implements Middleware {
@@ -25,7 +24,7 @@ class ChannelTest {
                        Version version,
                        Priority priority,
                        Map<Topic, MiddlewareCallback> topicToMiddlewareCallbackMap) {
-            this.publisher = (topic, message) -> channel.publish(group, version, Priorities.cloneByDownGrade(priority), topic, message);
+            this.publisher = (topic, message) -> channel.publish(group, version, priority.cloneByDownGrade(), topic, message);
             this.subscriber = new SubscriberImpl(group, version, priority, new HashMap<>() {{
                 topicToMiddlewareCallbackMap.forEach(((topic, middlewareCallback) -> {
                     put(topic, (t, message) -> middlewareCallback.onMessage(t, message, publisher));
