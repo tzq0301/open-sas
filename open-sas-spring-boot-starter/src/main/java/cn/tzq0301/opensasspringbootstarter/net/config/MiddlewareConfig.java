@@ -1,7 +1,6 @@
 package cn.tzq0301.opensasspringbootstarter.net.config;
 
 import cn.tzq0301.opensasspringbootstarter.net.handler.client.MessageMiddlewareHandler;
-import cn.tzq0301.opensasspringbootstarter.net.handler.client.MessageSubscriberHandler;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;

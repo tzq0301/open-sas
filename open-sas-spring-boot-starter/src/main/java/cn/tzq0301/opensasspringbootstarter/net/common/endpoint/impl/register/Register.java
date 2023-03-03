@@ -6,7 +6,6 @@ import cn.tzq0301.opensasspringbootstarter.common.Group;
 import cn.tzq0301.opensasspringbootstarter.common.Priority;
 import cn.tzq0301.opensasspringbootstarter.common.Version;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.Endpoint;
-import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.EndpointRegistry;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.WebSocketEndpoint;
 import cn.tzq0301.opensasspringbootstarter.net.common.endpoint.impl.publish.PublishRequest;
 import cn.tzq0301.opensasspringbootstarter.net.common.payload.Payload;

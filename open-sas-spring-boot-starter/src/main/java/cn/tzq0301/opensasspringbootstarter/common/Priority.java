@@ -1,7 +1,6 @@
 package cn.tzq0301.opensasspringbootstarter.common;
 
 import com.google.common.collect.ComparisonChain;
-import com.google.errorprone.annotations.CheckReturnValue;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
