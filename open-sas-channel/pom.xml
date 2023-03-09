@@ -8,14 +8,18 @@
 		<version>3.0.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>cn.tzq0301</groupId>
 	<artifactId>open-sas-channel</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<name>open-sas-channel</name>
 	<description>open-sas-channel</description>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -24,8 +28,19 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.tzq0301</groupId>
+			<artifactId>open-sas-core</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
