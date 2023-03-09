@@ -16,6 +16,7 @@ public class PublisherController {
 
     @MessageMapping("/publish")
     public void publish(@Payload PublishRequest request) {
+        System.out.println(request); // FIXME
         channel.publish(request.group(), request.version(), request.priority(), request.topic(), request.message());
     }
 }
