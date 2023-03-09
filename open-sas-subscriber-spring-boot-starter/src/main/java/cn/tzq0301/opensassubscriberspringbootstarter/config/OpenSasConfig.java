@@ -1,11 +1,10 @@
-package cn.tzq0301.opensaspublisherspringbootstarter.config;
+package cn.tzq0301.opensassubscriberspringbootstarter.config;
 
 import cn.tzq0301.opensascore.group.Group;
+import cn.tzq0301.opensascore.listener.SubscriberListenerRegistry;
 import cn.tzq0301.opensascore.priority.Priority;
 import cn.tzq0301.opensascore.version.Version;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -20,12 +19,12 @@ public class OpenSasConfig implements WebServerFactoryCustomizer<ConfigurableWeb
 
     @Bean
     public Group group() {
-        return new Group(openSasProperties.getPublisher().getGroup());
+        return new Group(openSasProperties.getSubscriber().getGroup());
     }
 
     @Bean
     public Version version() {
-        var propertiedVersion = openSasProperties.getPublisher().getVersion();
+        var propertiedVersion = openSasProperties.getSubscriber().getVersion();
         if (propertiedVersion == null) {
             return Version.DEFAULT_VERSION;
         }
@@ -37,11 +36,16 @@ public class OpenSasConfig implements WebServerFactoryCustomizer<ConfigurableWeb
 
     @Bean
     public Priority priority() {
-        return new Priority(openSasProperties.getPublisher().getPriority());
+        return new Priority(openSasProperties.getSubscriber().getPriority());
+    }
+
+    @Bean
+    public SubscriberListenerRegistry subscriberListenerRegistry() {
+        return new SubscriberListenerRegistry();
     }
 
     @Override
     public void customize(ConfigurableWebServerFactory factory) {
-        factory.setPort(openSasProperties.getPublisher().getPort());
+        factory.setPort(openSasProperties.getSubscriber().getPort());
     }
 }

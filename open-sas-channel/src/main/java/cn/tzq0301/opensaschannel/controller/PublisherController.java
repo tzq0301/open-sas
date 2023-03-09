@@ -1,7 +1,7 @@
 package cn.tzq0301.opensaschannel.controller;
 
-import cn.tzq0301.opensaschannel.entity.PublishRequest;
 import cn.tzq0301.opensascore.channel.Channel;
+import cn.tzq0301.opensascore.message.MessageDetails;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
@@ -14,9 +14,9 @@ public class PublisherController {
         this.channel = channel;
     }
 
-    @MessageMapping("/publish")
-    public void publish(@Payload PublishRequest request) {
-        System.out.println(request); // FIXME
-        channel.publish(request.group(), request.version(), request.priority(), request.topic(), request.message());
+    @MessageMapping("/topic/publish")
+    public void publish(@Payload MessageDetails details) {
+        System.out.println(details); // FIXME
+        channel.publish(details);
     }
 }

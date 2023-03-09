@@ -43,6 +43,6 @@ public class WebSocketHandler extends StompSessionHandlerAdapter implements Publ
         checkNotNull(topic);
         checkNotNull(message);
         checkNotNull(session);
-        session.send("/publish", new PublishRequest(group, version, priority, topic, message));
+        session.send("/topic/publish", new PublishRequest(group, version, priority, topic, message));
     }
 }

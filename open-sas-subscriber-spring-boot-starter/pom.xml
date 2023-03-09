@@ -5,24 +5,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>cn.tzq0301</groupId>
-    <artifactId>examples</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>open-sas-subscriber-spring-boot-starter</artifactId>
+    <version>1.0.0</version>
 
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>message-center-example</module>
-        <module>message-middleware-5-example</module>
-        <module>message-publisher-example</module>
-        <module>message-subscriber-example</module>
-        <module>publisher</module>
-        <module>subscriber</module>
-    </modules>
+    <name>open-sas-subscriber-spring-boot-starter</name>
+    <description>open-sas-subscriber-spring-boot-starter</description>
 
     <properties>
         <java.version>17</java.version>
@@ -35,15 +27,32 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.tzq0301</groupId>
-            <artifactId>open-sas-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.tzq0301</groupId>
+            <artifactId>open-sas-core</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
@@ -52,6 +61,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
