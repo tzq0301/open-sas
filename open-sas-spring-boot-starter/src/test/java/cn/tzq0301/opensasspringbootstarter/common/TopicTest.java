@@ -2,7 +2,7 @@ package cn.tzq0301.opensasspringbootstarter.common;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TopicTest {
     @Test

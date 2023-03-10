@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 import static cn.tzq0301.opensascore.priority.Priority.MAX_PRIORITY;
 import static cn.tzq0301.opensascore.priority.Priority.MIN_PRIORITY;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ChannelImplTest {
     @Test
