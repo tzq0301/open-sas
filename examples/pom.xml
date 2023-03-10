@@ -16,10 +16,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>message-center-example</module>
-        <module>message-middleware-5-example</module>
-        <module>message-publisher-example</module>
-        <module>message-subscriber-example</module>
         <module>publisher</module>
         <module>subscriber</module>
         <module>middleware-5</module>
