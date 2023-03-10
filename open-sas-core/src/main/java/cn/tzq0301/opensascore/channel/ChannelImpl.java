@@ -25,9 +25,9 @@ public final class ChannelImpl implements Channel {
 
     @Override
     public void registerSubscriber(@NonNull final Group group,
-                                                @NonNull final Version version,
-                                                @NonNull final Priority priority,
-                                                @NonNull final Map<Topic, SubscriberCallback> topicToCallbackMap) {
+                                   @NonNull final Version version,
+                                   @NonNull final Priority priority,
+                                   @NonNull final Map<Topic, SubscriberCallback> topicToCallbackMap) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
@@ -57,8 +57,8 @@ public final class ChannelImpl implements Channel {
 
     @Override
     public void unregisterSubscriber(@NonNull final Group group,
-                                                  @NonNull final Version version,
-                                                  @NonNull final Priority priority) {
+                                     @NonNull final Version version,
+                                     @NonNull final Priority priority) {
         checkNotNull(group);
         checkNotNull(version);
         checkNotNull(priority);
@@ -92,10 +92,10 @@ public final class ChannelImpl implements Channel {
 
     @Override
     public void publish(@NonNull final Group group,
-                                     @NonNull final Version version,
-                                     @NonNull final Priority priority,
-                                     @NonNull final Topic topic,
-                                     @NonNull final Message message) {
+                        @NonNull final Version version,
+                        @NonNull final Priority priority,
+                        @NonNull final Topic topic,
+                        @NonNull final Message message) {
         checkNotNull(message);
 
         synchronized (this) {

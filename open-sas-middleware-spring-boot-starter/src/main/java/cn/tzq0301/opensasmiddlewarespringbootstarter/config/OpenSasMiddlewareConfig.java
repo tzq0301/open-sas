@@ -3,7 +3,6 @@ package cn.tzq0301.opensasmiddlewarespringbootstarter.config;
 import cn.tzq0301.opensascore.listener.Listener;
 import cn.tzq0301.opensascore.listener.MiddlewareListenerRegistry;
 import cn.tzq0301.opensascore.middleware.MiddlewareCallback;
-import cn.tzq0301.opensascore.subscriber.SubscriberCallback;
 import cn.tzq0301.opensascore.topic.Topic;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.aop.support.AopUtils;

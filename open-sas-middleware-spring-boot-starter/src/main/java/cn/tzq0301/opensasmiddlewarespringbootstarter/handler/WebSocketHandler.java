@@ -46,9 +46,12 @@ public class WebSocketHandler extends StompSessionHandlerAdapter implements Publ
     public void afterConnected(@NonNull StompSession session, @NonNull StompHeaders connectedHeaders) {
         checkNotNull(session);
         checkNotNull(connectedHeaders);
+
         this.session = session;
+
         subscribe(session);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> unsubscribe(session)));
+
         session.subscribe("/user/topic/message", new StompFrameHandler() {
             @Override
             @NonNull
