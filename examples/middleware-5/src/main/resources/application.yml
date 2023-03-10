@@ -1,0 +1,12 @@
+open-sas:
+  subscriber:
+    group: WenZhou
+    version:
+      major: 1
+      minor: 0
+      patch: 0
+    priority: 5
+    port: 10003
+  server-addr:
+    host: localhost
+    port: 10000
