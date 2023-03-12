@@ -36,14 +36,6 @@ public class SubscriberImpl implements Subscriber {
     }
 
     @Override
-    public void onMessage(@NonNull final Topic topic, @NonNull final Message message) {
-        checkNotNull(topic);
-        checkNotNull(message);
-        SubscriberCallback callback = checkNotNull(topicToCallbackMap.get(topic));
-        callback.onMessage(topic, message);
-    }
-
-    @Override
     public void subscribe(@NonNull final Channel channel) {
         checkNotNull(channel);
         channel.registerSubscriber(group, version, priority, topicToCallbackMap);
@@ -53,5 +45,13 @@ public class SubscriberImpl implements Subscriber {
     public void unsubscribe(@NonNull final Channel channel) {
         checkNotNull(channel);
         channel.unregisterSubscriber(group, version, priority);
+    }
+
+    @Override
+    public void onMessage(@NonNull Group group, @NonNull Version version, @NonNull Priority priority, @NonNull Topic topic, @NonNull Message message) {
+        checkNotNull(topic);
+        checkNotNull(message);
+        SubscriberCallback callback = checkNotNull(topicToCallbackMap.get(topic));
+        callback.onMessage(group, version, priority, topic, message);
     }
 }

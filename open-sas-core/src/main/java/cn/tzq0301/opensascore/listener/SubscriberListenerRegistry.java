@@ -1,8 +1,11 @@
 package cn.tzq0301.opensascore.listener;
 
+import cn.tzq0301.opensascore.group.Group;
 import cn.tzq0301.opensascore.message.Message;
+import cn.tzq0301.opensascore.priority.Priority;
 import cn.tzq0301.opensascore.subscriber.SubscriberCallback;
 import cn.tzq0301.opensascore.topic.Topic;
+import cn.tzq0301.opensascore.version.Version;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -32,9 +35,13 @@ public final class SubscriberListenerRegistry implements SubscriberCallback {
     }
 
     @Override
-    public void onMessage(@NonNull Topic topic, @NonNull Message message) {
+    public void onMessage(@NonNull Group group, @NonNull Version version, @NonNull Priority priority,
+                          @NonNull Topic topic, @NonNull Message message) {
+        checkNotNull(group);
+        checkNotNull(version);
+        checkNotNull(priority);
         checkNotNull(topic);
         checkNotNull(message);
-        checkNotNull(topicToCallbackMap.get(topic)).onMessage(topic, message);
+        checkNotNull(topicToCallbackMap.get(topic)).onMessage(group, version, priority, topic, message);
     }
 }

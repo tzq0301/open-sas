@@ -63,8 +63,21 @@ public class WebSocketHandler extends StompSessionHandlerAdapter implements Publ
             @Override
             public void handleFrame(@NonNull StompHeaders headers, Object payload) {
                 checkNotNull(headers);
+
                 MessageDetails messageDetails = (MessageDetails) payload;
-                middlewareListenerRegistry.onMessage(messageDetails.topic(), messageDetails.message(), WebSocketHandler.this);
+
+                Group group = messageDetails.group();
+                Version version = messageDetails.version();
+                Priority priority = messageDetails.priority();
+                Topic topic = messageDetails.topic();
+                Message message = messageDetails.message();
+
+                Publisher publisher = (t, m) -> {
+                    PublishRequest request = new PublishRequest(group, version, priority.cloneByDownGrade(), topic, message);
+                    session.send("/topic/publish", request);
+                };
+
+                middlewareListenerRegistry.onMessage(group, version, priority, topic, message, publisher);
             }
         });
     }
@@ -79,7 +92,7 @@ public class WebSocketHandler extends StompSessionHandlerAdapter implements Publ
     }
 
     @Override
-    public void publish(@NonNull Topic topic, @NonNull Message message) {
+    public void publish(@NonNull Topic topic, @NonNull Message message) { // FIXME
         checkNotNull(topic);
         checkNotNull(message);
         checkNotNull(session);

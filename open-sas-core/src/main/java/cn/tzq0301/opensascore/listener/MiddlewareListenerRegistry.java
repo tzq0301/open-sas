@@ -1,9 +1,12 @@
 package cn.tzq0301.opensascore.listener;
 
+import cn.tzq0301.opensascore.group.Group;
 import cn.tzq0301.opensascore.message.Message;
 import cn.tzq0301.opensascore.middleware.MiddlewareCallback;
+import cn.tzq0301.opensascore.priority.Priority;
 import cn.tzq0301.opensascore.publisher.Publisher;
 import cn.tzq0301.opensascore.topic.Topic;
+import cn.tzq0301.opensascore.version.Version;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -33,9 +36,9 @@ public final class MiddlewareListenerRegistry implements MiddlewareCallback {
     }
 
     @Override
-    public void onMessage(@NonNull Topic topic, @NonNull Message message, @NonNull Publisher publisher) {
+    public void onMessage(@NonNull Group group, @NonNull Version version, @NonNull Priority priority, @NonNull Topic topic, @NonNull Message message, @NonNull Publisher publisher) {
         checkNotNull(topic);
         checkNotNull(message);
-        checkNotNull(topicToCallbackMap.get(topic)).onMessage(topic, message, publisher);
+        checkNotNull(topicToCallbackMap.get(topic)).onMessage(group, version, priority, topic, message, publisher);
     }
 }

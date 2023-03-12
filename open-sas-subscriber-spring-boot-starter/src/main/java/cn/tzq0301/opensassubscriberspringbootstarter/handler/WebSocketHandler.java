@@ -54,7 +54,8 @@ public class WebSocketHandler extends StompSessionHandlerAdapter {
             public void handleFrame(@NonNull StompHeaders headers, Object payload) {
                 checkNotNull(headers);
                 MessageDetails messageDetails = (MessageDetails) payload;
-                subscriberListenerRegistry.onMessage(messageDetails.topic(), messageDetails.message());
+                subscriberListenerRegistry.onMessage(messageDetails.group(), messageDetails.version(),
+                        messageDetails.priority(), messageDetails.topic(), messageDetails.message());
             }
         });
     }

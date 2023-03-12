@@ -36,10 +36,10 @@ public final class MiddlewareImpl implements Middleware {
             channel.publish(group, version, priority.cloneByDownGrade(), topic, message);
         };
         this.subscriber = new SubscriberImpl(group, version, priority, new HashMap<>() {{
-            topicToCallbackMap.forEach((topic, callback) -> put(topic, (t, message) -> {
+            topicToCallbackMap.forEach((topic, callback) -> put(topic, (g, v, p, t, message) -> {
                 checkNotNull(t);
                 checkNotNull(message);
-                callback.onMessage(t, message, publisher);
+                callback.onMessage(g, v, p, t, message, publisher);
             }));
         }});
     }
@@ -64,9 +64,9 @@ public final class MiddlewareImpl implements Middleware {
     }
 
     @Override
-    public void onMessage(@NonNull Topic topic, @NonNull Message message) {
+    public void onMessage(@NonNull Group group, @NonNull Version version, @NonNull Priority priority, @NonNull Topic topic, @NonNull Message message) {
         checkNotNull(topic);
         checkNotNull(message);
-        subscriber.onMessage(topic, message);
+        subscriber.onMessage(group, version, priority, topic, message);
     }
 }

@@ -28,9 +28,10 @@ public class SubscriberController {
     @MessageMapping("/topic/subscribe")
     public void subscribe(@Payload SubscribeRequest request, @Header("simpSessionId") String sessionId, MessageHeaders messageHeaders) {
         channel.registerSubscriber(request.group(), request.version(), request.priority(), new HashMap<>() {{
-            request.topics().forEach(topic -> put(topic, (t, message) ->
-                    simpMessagingTemplate.convertAndSendToUser(sessionId, "/topic/message",
-                            new MessageDetails(request.group(), request.version(), request.priority(), t, message), messageHeaders)));
+            request.topics().forEach(topic -> put(topic, (g, v, p, t, m) -> {
+                MessageDetails messageDetails = new MessageDetails(g, v, p, t, m);
+                simpMessagingTemplate.convertAndSendToUser(sessionId, "/topic/message", messageDetails, messageHeaders);
+            }));
         }});
     }
 
