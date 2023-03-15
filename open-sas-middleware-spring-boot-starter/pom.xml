@@ -52,6 +52,12 @@
 			<artifactId>open-sas-core</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>cn.tzq0301</groupId>
+			<artifactId>tzq4j</artifactId>
+			<version>1.0.10</version>
+		</dependency>
 	</dependencies>
 
 	<build>
