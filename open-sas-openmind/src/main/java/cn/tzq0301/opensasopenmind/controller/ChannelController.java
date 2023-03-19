@@ -1,5 +1,6 @@
 package cn.tzq0301.opensasopenmind.controller;
 
+import cn.tzq0301.opensascore.channel.ChannelMetaInfo;
 import cn.tzq0301.opensasopenmind.config.OpenSasProperties;
 import cn.tzq0301.opensasopenmind.entity.token.CreateTokenRequest;
 import cn.tzq0301.opensasopenmind.exception.token.InvalidTokenException;
@@ -29,7 +30,11 @@ public class ChannelController {
         if (!channelService.isTokenValid(token)) {
             throw new InvalidTokenException();
         }
-
         return serverAddr;
+    }
+
+    @GetMapping("/meta")
+    public ChannelMetaInfo meta() {
+        return channelService.meta();
     }
 }

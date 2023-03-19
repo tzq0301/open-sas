@@ -23,4 +23,6 @@ public interface Channel {
     default void publish(@NonNull MessageDetails details) {
         publish(details.group(), details.version(), details.priority(), details.topic(), details.message());
     }
+
+    ChannelMetaInfo meta();
 }

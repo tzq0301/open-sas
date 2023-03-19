@@ -1,7 +1,9 @@
 package cn.tzq0301.opensasopenmind.service.impl;
 
+import cn.tzq0301.opensascore.channel.ChannelMetaInfo;
 import cn.tzq0301.opensasopenmind.entity.token.OpenSasToken;
 import cn.tzq0301.opensasopenmind.exception.user.AccountNotExistException;
+import cn.tzq0301.opensasopenmind.manager.ChannelManager;
 import cn.tzq0301.opensasopenmind.repository.OpenSasTokenRepository;
 import cn.tzq0301.opensasopenmind.repository.UserRepository;
 import cn.tzq0301.opensasopenmind.service.ChannelService;
@@ -12,11 +14,16 @@ import java.util.UUID;
 
 @Service
 public class ChannelServiceImpl implements ChannelService {
+    private final ChannelManager channelManager;
+
     private final OpenSasTokenRepository tokenRepository;
 
     private final UserRepository userRepository;
 
-    public ChannelServiceImpl(OpenSasTokenRepository tokenRepository, UserRepository userRepository) {
+    public ChannelServiceImpl(ChannelManager channelManager,
+                              OpenSasTokenRepository tokenRepository,
+                              UserRepository userRepository) {
+        this.channelManager = channelManager;
         this.tokenRepository = tokenRepository;
         this.userRepository = userRepository;
     }
@@ -35,5 +42,10 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public boolean isTokenValid(String token) {
         return tokenRepository.existsByToken(token);
+    }
+
+    @Override
+    public ChannelMetaInfo meta() {
+        return channelManager.meta();
     }
 }
