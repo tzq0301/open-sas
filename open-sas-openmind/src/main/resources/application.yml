@@ -9,3 +9,6 @@ spring:
 jwt:
   issuer: ${JWT_ISSUER}
   expiration: ${JWT_EXPIRATION} # seconds
+
+open-sas:
+  server-addr: localhost:10000
