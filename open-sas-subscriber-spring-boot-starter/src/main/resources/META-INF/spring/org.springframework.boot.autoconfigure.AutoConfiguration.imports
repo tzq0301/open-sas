@@ -1,3 +1,5 @@
+cn.tzq0301.opensassubscriberspringbootstarter.config.HttpClientConfig
+cn.tzq0301.opensassubscriberspringbootstarter.config.JsonConfig
 cn.tzq0301.opensassubscriberspringbootstarter.config.OpenSasConfig
 cn.tzq0301.opensassubscriberspringbootstarter.config.OpenSasProperties
 cn.tzq0301.opensassubscriberspringbootstarter.config.OpenSasSubscriberConfig

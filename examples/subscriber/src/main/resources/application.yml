@@ -7,6 +7,7 @@ open-sas:
       patch: 0
     priority: 0
     port: 10002
-  server-addr:
-    host: localhost
-    port: 10000
+  open-mind:
+    host: 127.0.0.1
+    port: 8080
+    token: 76941044-34c4-4221-9dc1-daa871856fb3

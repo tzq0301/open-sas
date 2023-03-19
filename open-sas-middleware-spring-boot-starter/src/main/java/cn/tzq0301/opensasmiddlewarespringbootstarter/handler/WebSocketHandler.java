@@ -1,5 +1,6 @@
 package cn.tzq0301.opensasmiddlewarespringbootstarter.handler;
 
+import cn.tzq0301.http.rest.result.Result;
 import cn.tzq0301.opensascore.group.Group;
 import cn.tzq0301.opensascore.listener.MiddlewareListenerRegistry;
 import cn.tzq0301.opensascore.message.Message;
@@ -13,8 +14,12 @@ import cn.tzq0301.opensasmiddlewarespringbootstarter.entity.PublishRequest;
 import cn.tzq0301.opensasmiddlewarespringbootstarter.entity.SubscribeRequest;
 import cn.tzq0301.opensasmiddlewarespringbootstarter.entity.UnsubscribeRequest;
 import cn.tzq0301.spring.websocket.StompSessionHandlerAdaptor;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.ConnectionLostException;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
@@ -23,12 +28,24 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.stereotype.Controller;
 
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Controller
-public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor {
-    private final String serverAddr;
+public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, ApplicationListener<ApplicationReadyEvent> {
+    private final String openMindAddr;
+
+    private final String openMindToken;
+
+    private final ObjectMapper objectMapper;
+
+    private String serverAddr;
+
+    private final HttpClient httpClient;
 
     private final Group group;
 
@@ -40,13 +57,16 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor {
 
     private StompSession session;
 
-    public WebSocketHandler(OpenSasProperties openSasProperties,
-                            Group group, Version version, Priority priority,
+    public WebSocketHandler(ObjectMapper objectMapper, OpenSasProperties openSasProperties,
+                            HttpClient httpClient, Group group, Version version, Priority priority,
                             MiddlewareListenerRegistry middlewareListenerRegistry) {
-        this.serverAddr = String.format(
-                "ws://%s:%s",
-                openSasProperties.getServerAddr().getHost(),
-                openSasProperties.getServerAddr().getPort());
+        this.openMindAddr = String.format(
+                "%s:%s",
+                openSasProperties.getOpenMind().getHost(),
+                openSasProperties.getOpenMind().getPort());
+        this.openMindToken = openSasProperties.getOpenMind().getToken();
+        this.objectMapper = objectMapper;
+        this.httpClient = httpClient;
         this.group = group;
         this.version = version;
         this.priority = priority;
@@ -121,10 +141,24 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor {
         }
     }
 
-    @EventListener(ApplicationReadyEvent.class)
     public void connectOnStartUp() {
         if (!tryConnect(serverAddr)) {
             throw new RuntimeException("WebSocket session connect fail");
         }
+    }
+
+    @SneakyThrows
+    @Override
+    public void onApplicationEvent(@NonNull ApplicationReadyEvent event) {
+        URI uri = new URI(String.format("http://%s/channel/serverAddr?token=%s", openMindAddr, openMindToken));
+        HttpRequest request = HttpRequest
+                .newBuilder(uri)
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        Result<String> result = objectMapper.readValue(response.body(), new TypeReference<>() {
+        });
+        serverAddr = result.data();
+        serverAddr = String.format("ws://%s", serverAddr);
+        connectOnStartUp();
     }
 }

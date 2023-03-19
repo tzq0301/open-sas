@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class OpenSasProperties {
     private Publisher publisher;
 
-    private ServerAddr serverAddr;
+    private OpenMind openMind;
 
     @Data
     public static class Publisher {
@@ -28,8 +28,9 @@ public class OpenSasProperties {
     }
 
     @Data
-    public static class ServerAddr {
+    public static class OpenMind {
         private String host;
         private int port;
+        private String token;
     }
 }
