@@ -129,12 +129,13 @@ public final class ChannelImpl implements Channel {
             }
 
             // loop the entries that key (priority) is equals with or lower than `priority`
-            // to find the first version, which is either equals with the `version` or is compatible with the `version`
+            // to find the first version, which is consistent with the given `version`
             for (var entry : priorityMap.entrySet()) {  // entry
                 var currentPriority = entry.getKey();     // key of entry
                 var currentVersionMap = entry.getValue(); // value of entry
 
-                var versionEntry = currentVersionMap.floorEntry(version); // versionEntry
+                var versionEntry = currentVersionMap.lowerEntry(
+                        new Version(version.major() + 1, version.minor(), version.patch())); // versionEntry
                 if (versionEntry == null) {
                     continue;
                 }
@@ -145,7 +146,7 @@ public final class ChannelImpl implements Channel {
                     continue;
                 }
 
-                if (version.compatibleWith(currentVersion)) {
+                if (version.consistentWith(currentVersion)) {
                     callback.onMessage(group, version, currentPriority, topic, message);
                     return;
                 }

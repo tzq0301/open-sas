@@ -29,7 +29,7 @@ public record Version(int major, int minor, int patch) implements Comparable<Ver
         checkArgument(patch >= 0, "patch should be not less than 0");
     }
 
-    public boolean compatibleWith(@NonNull Version o) {
+    public boolean consistentWith(@NonNull Version o) {
         checkNotNull(o);
         if (this.isNotStable() || o.isNotStable()) {
             return false;
