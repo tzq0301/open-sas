@@ -15,7 +15,7 @@ import static cn.tzq0301.http.rest.result.ResultCodeEnum.*;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
-//    @ExceptionHandler(Exception.class) // TODO
+    @ExceptionHandler(Exception.class)
     public Result<?> handleException(Exception e) {
         return Result.error(SYSTEM_ERROR, e.getMessage());
     }

@@ -21,7 +21,6 @@ public class ChannelManagerImpl implements ChannelManager {
     }
 
     @Override
-    @EventListener(ApplicationReadyEvent.class) // FIXME
     public ChannelMetaInfo meta() {
         return restTemplate
                 .getForEntity(String.format("http://%s/channel/meta", serverAddr), ChannelMetaInfo.class)
