@@ -19,12 +19,12 @@ public class OpenSasConfig implements WebServerFactoryCustomizer<ConfigurableWeb
 
     @Bean
     public Group group() {
-        return new Group(openSasProperties.getSubscriber().getGroup());
+        return new Group(openSasProperties.getMiddleware().getGroup());
     }
 
     @Bean
     public Version version() {
-        var propertiedVersion = openSasProperties.getSubscriber().getVersion();
+        var propertiedVersion = openSasProperties.getMiddleware().getVersion();
         if (propertiedVersion == null) {
             return Version.DEFAULT_VERSION;
         }
@@ -36,12 +36,12 @@ public class OpenSasConfig implements WebServerFactoryCustomizer<ConfigurableWeb
 
     @Bean
     public Priority priority() {
-        return new Priority(openSasProperties.getSubscriber().getPriority());
+        return new Priority(openSasProperties.getMiddleware().getPriority());
     }
 
     @Override
     public void customize(ConfigurableWebServerFactory factory) {
-        factory.setPort(openSasProperties.getSubscriber().getPort());
+        factory.setPort(openSasProperties.getMiddleware().getPort());
     }
 
     @Bean

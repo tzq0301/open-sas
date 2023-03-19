@@ -1,5 +1,5 @@
 open-sas:
-  subscriber:
+  middleware:
     group: WenZhou
     version:
       major: 1

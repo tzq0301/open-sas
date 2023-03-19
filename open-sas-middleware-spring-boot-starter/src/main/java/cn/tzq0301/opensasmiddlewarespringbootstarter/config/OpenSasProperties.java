@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "open-sas")
 @Data
 public class OpenSasProperties {
-    private Subscriber subscriber;
+    private Middleware middleware;
 
     private OpenMind openMind;
 
     @Data
-    public static class Subscriber {
+    public static class Middleware {
         private int port;
         private String group;
         private Version version;
