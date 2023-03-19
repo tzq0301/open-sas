@@ -1,4 +1,4 @@
-package cn.tzq0301.opensascore.channel;
+package cn.tzq0301.opensascore.channel.meta;
 
 import cn.tzq0301.opensascore.version.Version;
 

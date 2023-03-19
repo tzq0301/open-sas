@@ -1,5 +1,6 @@
 package cn.tzq0301.opensascore.channel;
 
+import cn.tzq0301.opensascore.channel.meta.ChannelMetaInfo;
 import cn.tzq0301.opensascore.group.Group;
 import cn.tzq0301.opensascore.message.Message;
 import cn.tzq0301.opensascore.message.MessageDetails;

@@ -1,5 +1,9 @@
 package cn.tzq0301.opensascore.channel;
 
+import cn.tzq0301.opensascore.channel.meta.ChannelMetaInfo;
+import cn.tzq0301.opensascore.channel.meta.GroupMetaInfo;
+import cn.tzq0301.opensascore.channel.meta.PriorityMetaInfo;
+import cn.tzq0301.opensascore.channel.meta.TopicMetaInfo;
 import cn.tzq0301.opensascore.group.Group;
 import cn.tzq0301.opensascore.message.Message;
 import cn.tzq0301.opensascore.priority.Priority;

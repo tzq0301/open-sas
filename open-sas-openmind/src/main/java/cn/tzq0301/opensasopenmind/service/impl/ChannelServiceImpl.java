@@ -1,6 +1,6 @@
 package cn.tzq0301.opensasopenmind.service.impl;
 
-import cn.tzq0301.opensascore.channel.ChannelMetaInfo;
+import cn.tzq0301.opensascore.channel.meta.ChannelMetaInfo;
 import cn.tzq0301.opensasopenmind.entity.token.OpenSasToken;
 import cn.tzq0301.opensasopenmind.exception.user.AccountNotExistException;
 import cn.tzq0301.opensasopenmind.manager.ChannelManager;

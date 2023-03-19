@@ -1,6 +1,6 @@
 package cn.tzq0301.opensasopenmind.service;
 
-import cn.tzq0301.opensascore.channel.ChannelMetaInfo;
+import cn.tzq0301.opensascore.channel.meta.ChannelMetaInfo;
 import cn.tzq0301.opensasopenmind.exception.user.AccountNotExistException;
 
 import java.time.LocalDateTime;
