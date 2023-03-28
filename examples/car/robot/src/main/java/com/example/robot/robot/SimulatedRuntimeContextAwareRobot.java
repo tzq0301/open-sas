@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SimulatedRuntimeContextAwareRobot {
     private final SensorManager sensorManager;
 
-    private AtomicInteger coordinate;
+    private final AtomicInteger coordinate;
 
     public SimulatedRuntimeContextAwareRobot(SensorManager sensorManager) {
         this.sensorManager = sensorManager;
