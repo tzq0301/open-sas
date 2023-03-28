@@ -9,6 +9,7 @@ import cn.tzq0301.opensascore.priority.Priority;
 import cn.tzq0301.opensascore.publisher.Publisher;
 import cn.tzq0301.opensascore.topic.Topic;
 import cn.tzq0301.opensascore.version.Version;
+import cn.tzq0301.opensasmiddlewarespringbootstarter.config.OpenSasConfig;
 import cn.tzq0301.opensasmiddlewarespringbootstarter.config.OpenSasProperties;
 import cn.tzq0301.opensasmiddlewarespringbootstarter.entity.PublishRequest;
 import cn.tzq0301.opensasmiddlewarespringbootstarter.entity.SubscribeRequest;
@@ -57,7 +58,7 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
     private StompSession session;
 
     public WebSocketHandler(ObjectMapper objectMapper, OpenSasProperties openSasProperties,
-                            HttpClient httpClient, Group group, Version version, Priority priority,
+                            HttpClient httpClient, OpenSasConfig openSasConfig,
                             MiddlewareListenerRegistry middlewareListenerRegistry) {
         this.openMindAddr = String.format(
                 "%s:%s",
@@ -66,9 +67,9 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
         this.openMindToken = openSasProperties.getOpenMind().getToken();
         this.objectMapper = objectMapper;
         this.httpClient = httpClient;
-        this.group = group;
-        this.version = version;
-        this.priority = priority;
+        this.group = openSasConfig.getGroup();
+        this.version = openSasConfig.getVersion();
+        this.priority = openSasConfig.getPriority();
         this.middlewareListenerRegistry = middlewareListenerRegistry;
     }
 
@@ -103,7 +104,7 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
                 Message message = messageDetails.message();
 
                 Publisher publisher = (t, m) -> {
-                    PublishRequest request = new PublishRequest(group, version, priority.cloneByDownGrade(), topic, message);
+                    PublishRequest request = new PublishRequest(group, version, priority.cloneByDownGrade(), t, m);
                     session.send("/topic/publish", request);
                 };
 

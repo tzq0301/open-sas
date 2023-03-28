@@ -4,26 +4,35 @@ import cn.tzq0301.opensascore.group.Group;
 import cn.tzq0301.opensascore.listener.MiddlewareListenerRegistry;
 import cn.tzq0301.opensascore.priority.Priority;
 import cn.tzq0301.opensascore.version.Version;
+import lombok.Getter;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootConfiguration
+@Getter
 public class OpenSasConfig implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
-    private final OpenSasProperties openSasProperties;
+    private final int port;
 
-    public OpenSasConfig(OpenSasProperties openSasProperties) {
-        this.openSasProperties = openSasProperties;
+    private final Group group;
+
+    private final Version version;
+
+    private final Priority priority;
+
+    public OpenSasConfig(final OpenSasProperties openSasProperties) {
+        this.port = openSasProperties.getPort();
+        this.group = getGroup(openSasProperties);
+        this.version = getVersion(openSasProperties);
+        this.priority = getPriority(openSasProperties);
     }
 
-    @Bean
-    public Group group() {
+    private Group getGroup(final OpenSasProperties openSasProperties) {
         return new Group(openSasProperties.getMiddleware().getGroup());
     }
 
-    @Bean
-    public Version version() {
+    private Version getVersion(final OpenSasProperties openSasProperties) {
         var propertiedVersion = openSasProperties.getMiddleware().getVersion();
         if (propertiedVersion == null) {
             return Version.DEFAULT_VERSION;
@@ -34,14 +43,13 @@ public class OpenSasConfig implements WebServerFactoryCustomizer<ConfigurableWeb
         return new Version(major, minor, patch);
     }
 
-    @Bean
-    public Priority priority() {
+    private Priority getPriority(final OpenSasProperties openSasProperties) {
         return new Priority(openSasProperties.getMiddleware().getPriority());
     }
 
     @Override
     public void customize(ConfigurableWebServerFactory factory) {
-        factory.setPort(openSasProperties.getMiddleware().getPort());
+        factory.setPort(port);
     }
 
     @Bean

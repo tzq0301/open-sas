@@ -7,6 +7,7 @@ import cn.tzq0301.opensascore.priority.Priority;
 import cn.tzq0301.opensascore.publisher.Publisher;
 import cn.tzq0301.opensascore.topic.Topic;
 import cn.tzq0301.opensascore.version.Version;
+import cn.tzq0301.opensaspublisherspringbootstarter.config.OpenSasConfig;
 import cn.tzq0301.opensaspublisherspringbootstarter.config.OpenSasProperties;
 import cn.tzq0301.opensaspublisherspringbootstarter.entity.PublishRequest;
 import cn.tzq0301.spring.websocket.StompSessionHandlerAdaptor;
@@ -49,10 +50,8 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
     private StompSession session;
 
     public WebSocketHandler(OpenSasProperties openSasProperties,
+                            OpenSasConfig openSasConfig,
                             ObjectMapper objectMapper,
-                            Group group,
-                            Version version,
-                            Priority priority,
                             HttpClient httpClient) {
         this.openMindAddr = String.format(
                 "%s:%s",
@@ -60,9 +59,9 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
                 openSasProperties.getOpenMind().getPort());
         this.openMindToken = openSasProperties.getOpenMind().getToken();
         this.objectMapper = objectMapper;
-        this.group = group;
-        this.version = version;
-        this.priority = priority;
+        this.group = openSasConfig.getGroup();
+        this.version = openSasConfig.getVersion();
+        this.priority = openSasConfig.getPriority();
         this.httpClient = httpClient;
     }
 

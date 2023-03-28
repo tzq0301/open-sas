@@ -1,12 +1,19 @@
 open-sas:
+  port: 10001
   publisher:
-    group: WenZhou
+    group: demo
     version:
       major: 1
       minor: 0
       patch: 0
     priority: 100
-  port: 10001
+  subscriber:
+    group: demo
+    version:
+      major: 1
+      minor: 0
+      patch: 0
+    priority: 0
   open-mind:
     host: 127.0.0.1
     port: 8080
