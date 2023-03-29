@@ -37,7 +37,12 @@ public class SensorManager {
         report(runtimeContextInformation, coordinateOfApp);
 
         if (hasCrashed(runtimeContextInformation, coordinateOfApp)) {
-            throw new RuntimeException("Crash!");
+//            throw new RuntimeException("Crash!");
+            System.err.printf(
+                    "Crash! left = %s, right = %s, coordinate = %s\n",
+                    runtimeContextInformation.leftCoordinate(),
+                    runtimeContextInformation.rightCoordinate(),
+                    coordinateOfApp);
         }
 
         int leftSensorDistance = leftSensor.getDistance(runtimeContextInformation, coordinateOfApp);

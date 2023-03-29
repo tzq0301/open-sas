@@ -23,7 +23,7 @@ public class SimulatedRuntimeContextAwareRobot {
     }
 
     @Async
-    @Scheduled(fixedRate = 50)
+    @Scheduled(fixedRate = 500)
     public void sendMessageBySensor() {
         try {
             sensorManager.sendRuntimeContextInformation(coordinate.get());

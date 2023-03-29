@@ -41,7 +41,7 @@ public class App implements MiddlewareCallback {
 
         int leftDistance = runtimeContextDistance.leftDistance();
         int rightDistance = runtimeContextDistance.rightDistance();
-        int bias = (rightDistance - leftDistance) / 2;
-        publisher.publish(this.topic, new Message(bias));
+        int newCoordinate = (rightDistance - leftDistance) / 2;
+        publisher.publish(this.topic, new Message(newCoordinate));
     }
 }
