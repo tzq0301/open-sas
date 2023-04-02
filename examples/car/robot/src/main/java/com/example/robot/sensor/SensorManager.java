@@ -47,7 +47,8 @@ public class SensorManager {
 
         int leftSensorDistance = leftSensor.getDistance(runtimeContextInformation, coordinateOfApp);
         int rightSensorDistance = rightSensor.getDistance(runtimeContextInformation, coordinateOfApp);
-        publisher.publish(topic, new Message(new RuntimeContextDistance(leftSensorDistance, rightSensorDistance)));
+        RuntimeContextDistance distance = new RuntimeContextDistance(leftSensorDistance, rightSensorDistance);
+        publisher.publish(topic, new Message(distance));
     }
 
     private void report(RuntimeContextInformation runtimeContextInformation, int coordinateOfApp) {

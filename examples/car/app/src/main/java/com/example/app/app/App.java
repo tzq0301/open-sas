@@ -12,8 +12,6 @@ import com.example.app.context.RuntimeContextDistance;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Random;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Listener(topic = "sensor")
@@ -41,7 +39,7 @@ public class App implements MiddlewareCallback {
 
         int leftDistance = runtimeContextDistance.leftDistance();
         int rightDistance = runtimeContextDistance.rightDistance();
-        int newCoordinate = (rightDistance - leftDistance) / 2;
-        publisher.publish(this.topic, new Message(newCoordinate));
+        int coordinateBias = (rightDistance - leftDistance) / 2;
+        publisher.publish(this.topic, new Message(coordinateBias));
     }
 }

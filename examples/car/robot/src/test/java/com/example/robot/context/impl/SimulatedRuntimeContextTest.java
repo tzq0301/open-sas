@@ -5,7 +5,7 @@ import com.example.robot.context.RuntimeContextInformation;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SimulatedRuntimeContextTest {
 

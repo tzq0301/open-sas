@@ -18,8 +18,8 @@ public class SimulatedRuntimeContextAwareRobot {
         this.coordinate = new AtomicInteger(0);
     }
 
-    public void moveTo(final int newCoordinate) {
-        this.coordinate.set(newCoordinate);
+    public void move(final int coordinateBias) {
+        this.coordinate.addAndGet(coordinateBias);
     }
 
     @Async

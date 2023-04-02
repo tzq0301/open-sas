@@ -11,18 +11,18 @@ import static io.vavr.API.*;
 
 @Component
 public class SimulatedRuntimeContext implements RuntimeContext {
-    private static final double noisePercentage = 0.03f;
+    private static final double noisePercentage = 0.13f;
 
-    private static final int minNoise = 20;
+    private static final int minNoise = 30;
 
-    private static final int maxNoiseBias = 30;
+    private static final int maxNoiseBias = 100;
 
     private final Random random;
 
     private int epoch;
 
     public SimulatedRuntimeContext() {
-        this.epoch = 100;
+        this.epoch = 0;
         this.random = new Random();
     }
 
@@ -40,7 +40,6 @@ public class SimulatedRuntimeContext implements RuntimeContext {
                 Case($(t -> t >= 200 && t < 300), 250 - epoch),
                 Case($(t -> t >= 300 && t < 400), epoch - 350),
                 Case($(), 50)
-//        );
         ) + makeNoise();
     }
 
@@ -49,12 +48,11 @@ public class SimulatedRuntimeContext implements RuntimeContext {
                 Case($(t -> t >= 200 && t < 300), 150 - epoch),
                 Case($(t -> t >= 300 && t < 400), epoch - 450),
                 Case($(), -50)
-//        );
         ) + makeNoise();
     }
 
     private int makeNoise() {
-        if (random.nextDouble() > noisePercentage) {
+        if (epoch <= 5 || random.nextDouble() > noisePercentage) {
             return 0;
         }
 

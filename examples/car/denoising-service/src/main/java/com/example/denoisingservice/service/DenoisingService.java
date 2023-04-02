@@ -13,31 +13,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Listener(topic = "sensor")
 public class DenoisingService implements MiddlewareCallback {
-    private static final int THRESHOLD = 10;
-
-    private static final int WINDOW_SIZE = 20;
-
-    private static final int N_SIGMA = 1;
-
-    private final Topic topic;
+    private static final int THRESHOLD = 5;
 
     private final ObjectMapper objectMapper;
 
-    private final Queue<RuntimeContextDistance> queue;
+    private final DistanceHistory leftHistory;
+
+    private final DistanceHistory rightHistory;
 
     public DenoisingService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.topic = new Topic("sensor");
-        this.queue = new LinkedList<>();
+        this.leftHistory = new DistanceHistory();
+        this.rightHistory = new DistanceHistory();
     }
 
     @Override
@@ -54,49 +47,40 @@ public class DenoisingService implements MiddlewareCallback {
                 objectMapper.convertValue(message.message(), RuntimeContextDistance.class));
 
         synchronized (this) {
-            queue.add(runtimeContextDistance);
-
-            if (queue.size() < THRESHOLD) {
-                return;
-            }
-
-            System.out.println(queue.size());
-
-            List<RuntimeContextDistance> window = queue.stream().limit(WINDOW_SIZE).toList();
-
-            for (int i = 0; i < WINDOW_SIZE; i++) {
-                queue.poll();
-            }
-
-            publisher.publish(this.topic, new Message(denoisingRuntimeContextDistance(window)));
+            RuntimeContextDistance result = new RuntimeContextDistance(
+                    leftHistory.offer(runtimeContextDistance.leftDistance()),
+                    rightHistory.offer(runtimeContextDistance.rightDistance()));
+            publisher.publish(topic, new Message(result));
         }
     }
 
-    private RuntimeContextDistance denoisingRuntimeContextDistance(final List<RuntimeContextDistance> window) {
-        checkNotNull(window);
+    private static class DistanceHistory {
+        private final LinkedList<Integer> list;
 
-        double meanLeftDistance = denoisingDistanceAndReturnMean(window.stream().map(RuntimeContextDistance::leftDistance).toList());
-        double meanRightDistance = denoisingDistanceAndReturnMean(window.stream().map(RuntimeContextDistance::rightDistance).toList());
+        private DistanceHistory() {
+            this.list = new LinkedList<>();
+        }
 
-        return new RuntimeContextDistance(Double.valueOf(meanLeftDistance).intValue(), Double.valueOf(meanRightDistance).intValue());
-    }
+        private int offer(int distance) {
+            int size = list.size();
 
-    private double denoisingDistanceAndReturnMean(final List<Integer> window) {
-        int windowSize = window.size();
-        checkArgument(windowSize != 1); // avoid divide by zero exception
+            if (size < THRESHOLD) {
+                list.offer(distance);
+                return distance;
+            }
 
-        double mean = window.stream().mapToInt(Integer::intValue).average().orElseThrow();
-        double sampleStandardDeviation = Math.sqrt(
-                window.stream()
-                        .map(num -> Math.pow(num - mean, 2))
-                        .mapToDouble(Double::doubleValue)
-                        .sum() / (windowSize - 1));
+            double average = list.stream().mapToInt(Integer::intValue).average().orElseThrow();
+            boolean isAbnormal = (distance > (average + 30)) || (distance < (average - 30));
 
-        return window.stream()
-                .limit(THRESHOLD)
-                .filter(value -> value >= (mean - N_SIGMA * sampleStandardDeviation) || value <= (mean + N_SIGMA * sampleStandardDeviation))
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0f);
+            if (isAbnormal) {
+                distance = list.get(size - 1);
+            }
+
+            list.poll();
+
+            list.offer(distance);
+
+            return distance;
+        }
     }
 }

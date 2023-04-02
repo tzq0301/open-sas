@@ -34,7 +34,7 @@ public class Actor implements SubscriberCallback {
         checkNotNull(topic);
         checkNotNull(message);
 
-        int newCoordinate = objectMapper.convertValue(message.message(), Integer.class);
-        robot.moveTo(newCoordinate);
+        int coordinateBias = objectMapper.convertValue(message.message(), Integer.class);
+        robot.move(coordinateBias);
     }
 }
