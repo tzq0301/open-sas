@@ -11,7 +11,7 @@ import static io.vavr.API.*;
 
 @Component
 public class SimulatedRuntimeContext implements RuntimeContext {
-    private static final double noisePercentage = 0.13f;
+    private static final double noisePercentage = 0.05f;
 
     private static final int minNoise = 30;
 

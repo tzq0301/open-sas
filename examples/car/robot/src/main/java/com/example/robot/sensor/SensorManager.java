@@ -39,7 +39,7 @@ public class SensorManager {
         if (hasCrashed(runtimeContextInformation, coordinateOfApp)) {
 //            throw new RuntimeException("Crash!");
             System.err.printf(
-                    "Crash! left = %s, right = %s, coordinate = %s\n",
+                    "May Crash! left = %s, right = %s, coordinate = %s\n",
                     runtimeContextInformation.leftCoordinate(),
                     runtimeContextInformation.rightCoordinate(),
                     coordinateOfApp);
@@ -52,7 +52,11 @@ public class SensorManager {
     }
 
     private void report(RuntimeContextInformation runtimeContextInformation, int coordinateOfApp) {
-        System.out.printf("%s %s\n", runtimeContextInformation, coordinateOfApp);
+        System.out.printf(
+                "Record(%s, %s, %s)\n",
+                runtimeContextInformation.leftCoordinate(),
+                runtimeContextInformation.rightCoordinate(),
+                coordinateOfApp);
     }
 
     private boolean hasCrashed(RuntimeContextInformation runtimeContextInformation, int coordinateOfApp) {
