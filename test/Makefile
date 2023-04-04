@@ -6,3 +6,6 @@ visual-log:
 visual-log-without-denoising:
 	cat visualization/log-without-denoising | python visualization/visual.py
 
+.PHONY: meta
+meta:
+	python openmind/meta.py

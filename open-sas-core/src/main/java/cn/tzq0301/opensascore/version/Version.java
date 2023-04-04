@@ -53,4 +53,8 @@ public record Version(int major, int minor, int patch) implements Comparable<Ver
                 .compare(this.patch, o.patch)
                 .result();
     }
+
+    public String format() {
+        return String.format("%s.%s.%s", major, minor, patch);
+    }
 }

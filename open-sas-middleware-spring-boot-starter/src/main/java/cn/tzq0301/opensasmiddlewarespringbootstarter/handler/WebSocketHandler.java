@@ -18,6 +18,7 @@ import cn.tzq0301.spring.websocket.StompSessionHandlerAdaptor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -43,6 +44,7 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
 
     private final ObjectMapper objectMapper;
 
+    @MonotonicNonNull
     private String serverAddr;
 
     private final HttpClient httpClient;
@@ -55,6 +57,7 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
 
     private final MiddlewareListenerRegistry middlewareListenerRegistry;
 
+    @MonotonicNonNull
     private StompSession session;
 
     public WebSocketHandler(ObjectMapper objectMapper, OpenSasProperties openSasProperties,

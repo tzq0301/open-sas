@@ -4,3 +4,6 @@ from endpoint import user
 meta = channel.meta
 
 login = user.login
+
+user = user
+channel = channel

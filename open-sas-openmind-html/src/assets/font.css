@@ -1,0 +1,10 @@
+@font-face {
+    font-family: merriweatherRegular;
+    src: url("/font/Merriweather-Regular.ttf");
+}
+
+.mw-regular {
+    font-family: merriweatherRegular, serif;
+    line-height: 1.6;
+    letter-spacing: 0.025em;
+}

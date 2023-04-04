@@ -4,5 +4,5 @@ import cn.tzq0301.opensascore.version.Version;
 
 import java.util.Set;
 
-public record PriorityMetaInfo(Integer priority, Set<Version> data) {
+public record PriorityMetaInfo(Integer priority, Set<String> versions) {
 }

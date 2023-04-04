@@ -17,6 +17,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -164,14 +165,14 @@ public final class ChannelImpl implements Channel {
                 topicMap.forEach((topic, priorityMap) -> {
                     TopicMetaInfo topicMetaInfo = new TopicMetaInfo(topic.topic(), Sets.newHashSet());
                     priorityMap.forEach((priority, versionMap) -> {
-                        PriorityMetaInfo priorityMetaInfo = new PriorityMetaInfo(priority.priority(), versionMap.keySet());
+                        PriorityMetaInfo priorityMetaInfo = new PriorityMetaInfo(priority.priority(),
+                                versionMap.keySet().stream().map(Version::format).collect(Collectors.toSet()));
                         topicMetaInfo.priorities().add(priorityMetaInfo);
                     });
                     groupMetaInfo.topics().add(topicMetaInfo);
                 });
                 channelMetaInfo.groups().add(groupMetaInfo);
             }));
-
 
             return channelMetaInfo;
         }

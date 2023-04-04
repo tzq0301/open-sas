@@ -4,11 +4,18 @@ import requests
 from endpoint import login
 from endpoint import meta
 
-loginResponse = login("user1", "user1")
-assert loginResponse is not None
-_, token = loginResponse
 
-metaResponse = meta(token)
-assert metaResponse is not None
+def meta_info():
+    login_response = login("user1", "user1")
+    assert login_response is not None
 
-print(metaResponse)
+    _, token = login_response
+
+    meta_response = meta(token)
+    assert meta_response is not None
+
+    return meta_response
+
+
+if __name__ == '__main__':
+    print(meta_info())

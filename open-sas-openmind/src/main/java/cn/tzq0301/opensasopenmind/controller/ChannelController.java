@@ -8,6 +8,9 @@ import cn.tzq0301.opensasopenmind.exception.user.AccountNotExistException;
 import cn.tzq0301.opensasopenmind.service.ChannelService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @RestController
 @RequestMapping("/channel")
 public class ChannelController {
@@ -22,7 +25,7 @@ public class ChannelController {
 
     @PostMapping("/token")
     public String createToken(@RequestBody CreateTokenRequest request) throws AccountNotExistException {
-        return channelService.createToken(request.userId(), request.expiredAt());
+        return channelService.createToken(request.userId(), LocalDateTime.now().plus(3, ChronoUnit.MONTHS));
     }
 
     @GetMapping("/serverAddr")
