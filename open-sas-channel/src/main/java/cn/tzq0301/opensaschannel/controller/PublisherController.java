@@ -16,7 +16,7 @@ public class PublisherController {
 
     @MessageMapping("/topic/publish")
     public void publish(@Payload MessageDetails details) {
-        System.out.println(details); // FIXME
+        System.out.println(details);
         channel.publish(details);
     }
 }

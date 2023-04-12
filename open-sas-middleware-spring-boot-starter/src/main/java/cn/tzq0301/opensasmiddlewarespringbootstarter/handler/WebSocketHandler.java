@@ -126,7 +126,7 @@ public class WebSocketHandler implements Publisher, StompSessionHandlerAdaptor, 
     }
 
     @Override
-    public void publish(@NonNull Topic topic, @NonNull Message message) { // FIXME
+    public void publish(@NonNull Topic topic, @NonNull Message message) {
         checkNotNull(topic);
         checkNotNull(message);
         checkNotNull(session);
