@@ -22,8 +22,6 @@ for line in sys.stdin:
         continue
     records.append(record)
 
-# print(records)
-
 plt.plot(
     list(map(lambda r: r.left, records)),
     range(len(records)),

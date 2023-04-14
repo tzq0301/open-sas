@@ -1,0 +1,14 @@
+open-sas:
+  port: 10004
+  middleware:
+    group: demo
+    version:
+      major: 1
+      minor: 1
+      patch: 0
+    priority: 10
+  open-mind:
+    host: 127.0.0.1
+    port: 8080
+    token: 76941044-34c4-4221-9dc1-daa871856fb3
+

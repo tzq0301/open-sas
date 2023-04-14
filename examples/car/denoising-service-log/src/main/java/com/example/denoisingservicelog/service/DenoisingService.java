@@ -1,4 +1,4 @@
-package com.example.denoisingservice.service;
+package com.example.denoisingservicelog.service;
 
 import cn.tzq0301.opensascore.group.Group;
 import cn.tzq0301.opensascore.listener.Listener;
@@ -8,8 +8,9 @@ import cn.tzq0301.opensascore.priority.Priority;
 import cn.tzq0301.opensascore.publisher.Publisher;
 import cn.tzq0301.opensascore.topic.Topic;
 import cn.tzq0301.opensascore.version.Version;
-import com.example.denoisingservice.context.RuntimeContextDistance;
+import com.example.denoisingservicelog.context.RuntimeContextDistance;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.Objects;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Listener(topic = "sensor")
+@Slf4j
 public class DenoisingService implements MiddlewareCallback {
     private static final int THRESHOLD = 5;
 
@@ -52,7 +54,7 @@ public class DenoisingService implements MiddlewareCallback {
                     rightHistory.offer(runtimeContextDistance.rightDistance()));
             Message toBePublished = new Message(result);
             publisher.publish(topic, toBePublished);
-            System.out.println(toBePublished);
+            log.info(toBePublished.toString());
         }
     }
 

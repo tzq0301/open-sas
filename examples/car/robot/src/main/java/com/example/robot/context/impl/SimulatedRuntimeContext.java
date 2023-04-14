@@ -56,6 +56,7 @@ public class SimulatedRuntimeContext implements RuntimeContext {
             return 0;
         }
 
+        // random.nextInt(MAX_NOISE_BIAS * 2) - MAX_NOISE_BIAS
         return random.nextInt(MAX_NOISE_BIAS) + (random.nextBoolean() ? MIN_NOISE : -MIN_NOISE);
     }
 }
